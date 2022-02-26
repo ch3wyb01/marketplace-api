@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from 'src/db/schemas/product.schema';
+import { Product } from 'src/db/schemas/product.schema';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel('Product')
-    private readonly productModel: Model<ProductDocument>,
+    private readonly productModel: Model<Product>,
   ) {}
 
   async insertProduct(
@@ -22,12 +22,7 @@ export class ProductsService {
 
   async fetchAllProducts(): Promise<Product[]> {
     const products = await this.productModel.find().exec();
-    return products.map((product) => ({
-      id: product.id,
-      title: product.title,
-      description: product.description,
-      price: product.price,
-    }));
+    return products;
   }
 
   async fetchProductById(prodId: string) {
