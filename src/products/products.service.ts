@@ -15,8 +15,8 @@ export class ProductsService {
     description: string,
     price: number,
   ): Promise<Product> {
-    const newProduct = new this.productModel({ title, description, price });
-    const product = await newProduct.save();
+    const newProduct = { title, description, price };
+    const product = await this.productModel.create(newProduct);
     return product;
   }
 
