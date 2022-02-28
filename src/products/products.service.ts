@@ -41,17 +41,13 @@ export class ProductsService {
     description: string,
     price: number,
   ) {
-    const fields = [{ title }, { description }, { price }].filter(
-      (field) => Object.values(field)[0],
-    );
+    const inputtedFields = [
+      ['title', title],
+      ['description', description],
+      ['price', price],
+    ].filter((field) => field[1]);
 
-    const updatedFields = {};
-
-    fields.forEach((obj) => {
-      const field = Object.keys(obj)[0];
-      const value = Object.values(obj)[0];
-      updatedFields[field] = value;
-    });
+    const updatedFields = Object.fromEntries(inputtedFields);
 
     const product = await this.productModel.updateOne(
       { _id: prodId },
