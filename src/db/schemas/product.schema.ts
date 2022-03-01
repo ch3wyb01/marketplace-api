@@ -5,7 +5,7 @@ import { IProduct } from 'src/products/products.interface';
 export type Product = _productSchema & Document;
 
 @Schema()
-class _productSchema implements IProduct{
+class _productSchema implements IProduct {
   @Prop({ required: true })
   title: string;
 
