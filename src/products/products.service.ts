@@ -25,14 +25,9 @@ export class ProductsService {
     return products;
   }
 
-  async fetchProductById(prodId: string) {
+  async fetchProductById(prodId: string): Promise<Product> {
     const product = await this.productModel.findById(prodId);
-    return {
-      id: product.id,
-      title: product.title,
-      description: product.description,
-      price: product.price,
-    };
+    return product;
   }
 
   async updateProductById(
@@ -52,7 +47,7 @@ export class ProductsService {
     const product = await this.productModel.findByIdAndUpdate(
       { _id: prodId },
       updatedFields,
-      { returnDocument : 'after' },
+      { returnDocument: 'after' },
     );
 
     return product;
