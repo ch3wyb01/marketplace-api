@@ -106,3 +106,21 @@ describe('PATCH /products/:id', () => {
     );
   });
 });
+
+describe('DELETE /products/:id', () => {
+  test('204: removes product from database', async () => {
+    await request(app.getHttpServer())
+      .delete('/products/621f912430f443d5067c39f2')
+      .expect(204);
+    const {
+      body: { products },
+    } = await request(app.getHttpServer()).get('/products').expect(200);
+    products.forEach((product: ProductDTO) => {
+      expect(product).toEqual(
+        expect.not.objectContaining({
+          id: '621f912430f443d5067c39f2',
+        }),
+      );
+    });
+  });
+});
