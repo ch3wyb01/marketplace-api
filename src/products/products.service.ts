@@ -40,7 +40,7 @@ export class ProductsService {
     title: string,
     description: string,
     price: number,
-  ) {
+  ): Promise<Product> {
     const inputtedFields = [
       ['title', title],
       ['description', description],
@@ -49,9 +49,10 @@ export class ProductsService {
 
     const updatedFields = Object.fromEntries(inputtedFields);
 
-    const product = await this.productModel.updateOne(
+    const product = await this.productModel.findByIdAndUpdate(
       { _id: prodId },
       updatedFields,
+      { returnDocument : 'after' },
     );
 
     return product;
