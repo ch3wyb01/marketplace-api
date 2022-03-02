@@ -4,8 +4,6 @@ const seed = async (connection, { productsData }) => {
   const productCollection = await connection.createCollection('products');
 
   await productCollection.insertMany(productsData);
-
-  console.log('seeded');
 };
 
 export default seed;
