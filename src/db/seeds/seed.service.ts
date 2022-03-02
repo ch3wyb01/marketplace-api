@@ -1,21 +1,14 @@
 import { Connection } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
+import seed from '../../../seed';
 
 @Injectable()
 export class SeedDatabaseService {
   constructor(@InjectConnection() private connection: Connection) {}
 
-  async SeedDatabase({ productsData }) {
-    await this.connection.dropCollection('products');
-
-    const productCollection = await this.connection.createCollection(
-      'products',
-    );
-
-    await productCollection.insertMany(productsData);
-
-    console.log('seeded');
+  async SeedDatabase(data) {
+    await seed(this.connection, data);
   }
 
   async CloseConnection() {
