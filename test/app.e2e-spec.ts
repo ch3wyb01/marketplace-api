@@ -22,9 +22,9 @@ beforeEach(async () => {
   await seedService.SeedDatabase(testData);
 });
 
-afterAll(async () => {
+afterEach(async() => {
   await seedService.CloseConnection();
-});
+})
 
 describe('GET /products', () => {
   test('200: returns array of product objects', async () => {
