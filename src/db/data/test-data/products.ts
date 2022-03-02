@@ -2,18 +2,18 @@ import { IProduct } from "src/products/products.interface";
 
 const productsData: IProduct[] = [
   {
-    title: 'Vintage Book Case',
-    description: 'A mahogany book case from the 1920s',
-    price: 400,
+    title: 'Abacus',
+    description: 'A wooden abacus that will help teach counting skills',
+    price: 10,
   },
   {
-    title: 'Supersized Bean Bag',
-    description: 'A big fluffy bean bag',
-    price: 80,
+    title: 'Blue Whale Plush',
+    description: 'A small whale teddy',
+    price: 8,
   },
   {
-    title: 'Watercolour Painting',
-    description: 'A lovely painting of a lake',
+    title: 'Crystal Wine Glasses',
+    description: 'A set of 4 wine glasses',
     price: 30,
   },
 ];
