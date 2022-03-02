@@ -56,7 +56,7 @@ export class ProductsController {
     @Body() completeBody: { title: string; description: string; price: number },
   ): Promise<{ product: ProductDTO }> {
     const { title, description, price } = completeBody;
-    
+
     const dbProduct = await this.productsService.updateProductById(
       prodId,
       title,
@@ -70,6 +70,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   async deleteProductById(@Param('id') prodId: string) {
     await this.productsService.removeProductById(prodId);
   }
