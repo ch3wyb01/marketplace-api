@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -49,15 +50,17 @@ export class ProductsController {
   }
 
   @Patch(':id')
+  @HttpCode(200)
   async patchProductById(
     @Param('id') prodId: string,
-    @Body() completeBody: { title: string; desc: string; price: number },
+    @Body() completeBody: { title: string; description: string; price: number },
   ): Promise<{ product: ProductDTO }> {
-    const { title, desc, price } = completeBody;
+    const { title, description, price } = completeBody;
+    
     const dbProduct = await this.productsService.updateProductById(
       prodId,
       title,
-      desc,
+      description,
       price,
     );
 
@@ -69,6 +72,5 @@ export class ProductsController {
   @Delete(':id')
   async deleteProductById(@Param('id') prodId: string) {
     await this.productsService.removeProductById(prodId);
-    return null;
   }
 }
