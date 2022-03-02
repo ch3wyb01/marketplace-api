@@ -52,7 +52,7 @@ export class ProductsController {
   async patchProductById(
     @Param('id') prodId: string,
     @Body() completeBody: { title: string; desc: string; price: number },
-  ): Promise<{product: ProductDTO}> {
+  ): Promise<{ product: ProductDTO }> {
     const { title, desc, price } = completeBody;
     const dbProduct = await this.productsService.updateProductById(
       prodId,
