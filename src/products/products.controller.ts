@@ -18,12 +18,12 @@ export class ProductsController {
 
   @Post()
   async addProduct(
-    @Body() completeBody: { title: string; desc: string; price: number },
+    @Body() completeBody: { title: string; description: string; price: number },
   ): Promise<{ product: ProductDTO }> {
-    const { title, desc, price } = completeBody;
+    const { title, description, price } = completeBody;
     const dbProduct = await this.productsService.insertProduct(
       title,
-      desc,
+      description,
       price,
     );
 
