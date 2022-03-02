@@ -5,7 +5,6 @@ import { AppModule } from '../src/app.module';
 import testData from '../src/db/data/test-data/index';
 import { SeedDatabaseService } from '../src/db/seeds/seed.service';
 import { ProductDTO } from 'src/products/product.dto';
-import { async } from 'rxjs';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
@@ -104,5 +103,23 @@ describe('PATCH /products/:id', () => {
         price: 8,
       }),
     );
+  });
+});
+
+describe('DELETE /products/:id', () => {
+  test('204: removes product from database', async () => {
+    await request(app.getHttpServer())
+      .delete('/products/621f912430f443d5067c39f2')
+      .expect(204);
+    const {
+      body: { products },
+    } = await request(app.getHttpServer()).get('/products').expect(200);
+    products.forEach((product: ProductDTO) => {
+      expect(product).toEqual(
+        expect.not.objectContaining({
+          id: '621f912430f443d5067c39f2',
+        }),
+      );
+    });
   });
 });
