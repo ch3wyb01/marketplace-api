@@ -85,3 +85,24 @@ describe('GET /products/:id', () => {
     });
   });
 });
+
+describe('PATCH /products/:id', () => {
+  test('200: returns updated product when passed one new field', async () => {
+    const updateFields = {
+      description: 'A small fluffy whale plush toy',
+    };
+    const {
+      body: { product },
+    } = await request(app.getHttpServer())
+      .patch('/products/621f912430f443d5067c39f1')
+      .send(updateFields)
+      .expect(200);
+    expect(product).toEqual(
+      expect.objectContaining({
+        title: 'Blue Whale Plush',
+        description: 'A small fluffy whale plush toy',
+        price: 8,
+      }),
+    );
+  });
+});
