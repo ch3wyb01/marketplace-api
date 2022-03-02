@@ -1,6 +1,6 @@
 import { IProduct } from "src/products/products.interface";
 
-const products: IProduct[] = [
+const productsData: IProduct[] = [
   {
     title: 'Vintage Book Case',
     description: 'A mahogany book case from the 1920s',
@@ -18,4 +18,4 @@ const products: IProduct[] = [
   },
 ];
 
-export default products;
+export default productsData;

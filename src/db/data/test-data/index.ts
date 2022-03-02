@@ -1,3 +1,3 @@
-import products from './products';
+import productsData from './products';
 
-export default { products };
+export default { productsData };
