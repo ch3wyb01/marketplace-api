@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 import testData from '../src/db/data/test-data/index';
 import { SeedDatabaseService } from '../src/db/seeds/seed.service';
 import { ProductDTO } from 'src/products/product.dto';
+import { async } from 'rxjs';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
@@ -22,9 +23,9 @@ beforeEach(async () => {
   await seedService.SeedDatabase(testData);
 });
 
-afterEach(async() => {
+afterEach(async () => {
   await seedService.CloseConnection();
-})
+});
 
 describe('GET /products', () => {
   test('200: returns array of product objects', async () => {
@@ -42,6 +43,30 @@ describe('GET /products', () => {
         }),
       );
     });
+  });
+});
+
+describe('POST /products', () => {
+  test('201: returns new product', async () => {
+    const newProduct = {
+      title: 'A new product',
+      description: 'This is shiny and brand new',
+      price: 100,
+    };
+    const {
+      body: { product },
+    } = await request(app.getHttpServer())
+      .post('/products')
+      .send(newProduct)
+      .expect(201);
+    expect(product).toEqual(
+      expect.objectContaining({
+        id: expect.any(String),
+        title: 'A new product',
+        description: 'This is shiny and brand new',
+        price: 100,
+      }),
+    );
   });
 });
 
