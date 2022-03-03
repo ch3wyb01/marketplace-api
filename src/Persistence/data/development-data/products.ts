@@ -1,4 +1,4 @@
-import { IProduct } from "src/API/products/product.interface";
+import { IProduct } from "../../../Domain/products/IProduct";
 
 const productsData: IProduct[] = [
   {
