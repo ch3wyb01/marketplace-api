@@ -4,7 +4,10 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SeedDatabaseService } from './Utilities/seeds/seed.service';
-import { ProductsModule } from './API/products/products.module';
+import { APIModule } from './API/API.module';
+import { DomainModule } from './Domain/Domain.module';
+import { PersistenceModule } from './Persistence/Persistence.Module';
+import { UtilitiesModule } from './Utilities/Utilities.module';
 
 @Module({
   imports: [
@@ -20,7 +23,7 @@ import { ProductsModule } from './API/products/products.module';
       },
       inject: [ConfigService],
     }),
-    ProductsModule
+    APIModule, DomainModule, PersistenceModule, UtilitiesModule
   ],
   controllers: [AppController],
   providers: [AppService, SeedDatabaseService],
