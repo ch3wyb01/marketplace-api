@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CategoriesService } from 'src/Domain/categories/categories.service';
-import { CategoryMapper } from 'src/Utilities/mappers/category.mapper';
+import { CategoriesService } from '../../Domain/categories/categories.service';
+import { CategoryMapper } from '../../Utilities/mappers/category.mapper';
 import { CategoryDTO } from './category.dto';
 
 @Controller('categories')
