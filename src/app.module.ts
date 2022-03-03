@@ -26,6 +26,6 @@ import { UtilitiesModule } from './Utilities/Utilities.module';
     APIModule, DomainModule, PersistenceModule, UtilitiesModule
   ],
   controllers: [AppController],
-  providers: [AppService, SeedDatabaseService],
+  providers: [AppService],
 })
 export class AppModule {}
