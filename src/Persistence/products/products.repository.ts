@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product } from 'src/db/schemas/product.schema';
+import { Product } from 'src/Persistence/products/product.schema';
 
 @Injectable()
-export class ProductsService {
+export class ProductsRepository {
   constructor(
     @InjectModel('Product')
     private readonly productModel: Model<Product>,
