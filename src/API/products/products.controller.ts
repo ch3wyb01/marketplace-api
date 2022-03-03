@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-// import { ProductsService } from '../../Database/products/products.repository';
+import { ProductsService } from 'src/Domain/products/products.service';
 import { Product } from 'src/Persistence/products/product.schema';
 import { ProductMapper } from '../../Utilities/product.mapper';
 import { ProductDTO } from './product.dto';
@@ -21,11 +21,8 @@ export class ProductsController {
   async addProduct(
     @Body() completeBody: { title: string; description: string; price: number },
   ): Promise<{ product: ProductDTO }> {
-    const { title, description, price } = completeBody;
     const dbProduct = await this.productsService.insertProduct(
-      title,
-      description,
-      price,
+      completeBody
     );
 
     const product = ProductMapper(dbProduct);
