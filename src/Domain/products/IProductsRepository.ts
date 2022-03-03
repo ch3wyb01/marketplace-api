@@ -1,4 +1,4 @@
-import { Product } from 'src/Persistence/products/product.schema';
+import { Product } from '../../Persistence/products/product.schema';
 
 export interface IProductsRepository {
   insertProduct(body: {

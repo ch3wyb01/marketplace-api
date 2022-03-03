@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsRepository } from 'src/Persistence/products/products.repository';
+import { ProductsRepository } from '../../Persistence/products/products.repository';
 
 @Injectable()
 export class ProductsService {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IProductsRepository } from 'src/Domain/products/IProductsRepository';
-import { Product } from 'src/Persistence/products/product.schema';
+import { IProductsRepository } from '../../Domain/products/IProductsRepository';
+import { Product } from './product.schema';
 
 @Injectable()
 export class ProductsRepository implements IProductsRepository {

@@ -8,9 +8,9 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ProductsService } from 'src/Domain/products/products.service';
-import { Product } from 'src/Persistence/products/product.schema';
-import { ProductMapper } from '../../Utilities/product.mapper';
+import { ProductsService } from '../../Domain/products/products.service';
+import { Product } from '../../Persistence/products/product.schema';
+import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { ProductDTO } from './product.dto';
 
 @Controller('products')
