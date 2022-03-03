@@ -32,17 +32,11 @@ export class ProductsRepository implements IProductsRepository {
 
   async updateProductById(
     prodId: string,
-    title: string,
-    description: string,
-    price: number,
+    updatedFields : {
+     title?: string, description?: string, price?: number
+    }
   ): Promise<Product> {
-    const inputtedFields = [
-      ['title', title],
-      ['description', description],
-      ['price', price],
-    ].filter((field) => field[1]);
-
-    const updatedFields = Object.fromEntries(inputtedFields);
+    
 
     const product = await this.productModel.findByIdAndUpdate(
       { _id: prodId },

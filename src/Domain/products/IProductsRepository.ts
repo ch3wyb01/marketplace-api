@@ -13,9 +13,11 @@ export interface IProductsRepository {
 
   updateProductById(
     prodId: string,
-    title: string,
-    description: string,
-    price: number,
+    updatedFields: {
+      title?: string;
+      description?: string;
+      price?: number;
+    },
   ): Promise<Product>;
 
   removeProductById(prodId: string): Promise<void>;

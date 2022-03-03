@@ -3,15 +3,15 @@ import { ProductsRepository } from '../../Persistence/products/products.reposito
 
 @Injectable()
 export class ProductsService {
-  constructor(
-    private readonly productsRepository: ProductsRepository,
-  ) {}
+  constructor(private readonly productsRepository: ProductsRepository) {}
 
-  async insertProduct(body: {
-    title: string;
-    description: string;
-    price: number;
-  }) {
+  async insertProduct(
+    body: {
+      title: string;
+      description: string;
+      price: number;
+    },
+  ) {
     const product = await this.productsRepository.insertProduct(body);
     return product;
   }
@@ -32,12 +32,17 @@ export class ProductsService {
     description: string,
     price: number,
   ) {
-      
+    const inputtedFields = [
+      ['title', title],
+      ['description', description],
+      ['price', price],
+    ].filter((field) => field[1]);
+
+    const updatedFields = Object.fromEntries(inputtedFields);
+
     const product = await this.productsRepository.updateProductById(
       prodId,
-      title,
-      description,
-      price,
+      updatedFields,
     );
     return product;
   }
