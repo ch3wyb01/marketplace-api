@@ -1,5 +1,5 @@
-import { Product } from 'src/db/schemas/product.schema';
-import { ProductDTO } from './product.dto';
+import { Product } from 'src/Persistence/products/product.schema';
+import { ProductDTO } from '../API/products/product.dto';
 
 export const ProductMapper = (product: Product): ProductDTO => {
   return new ProductDTO(

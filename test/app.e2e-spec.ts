@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import testData from '../src/db/data/test-data/index';
-import { SeedDatabaseService } from '../src/db/seeds/seed.service';
-import { ProductDTO } from 'src/products/product.dto';
+import testData from '../src/Persistence/data/test-data/index';
+import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
+import { ProductDTO } from 'src/API/products/product.dto';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;

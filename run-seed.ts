@@ -1,4 +1,4 @@
-import developmentData from './src/db/data/development-data';
+import developmentData from './src/Persistence/data/development-data';
 import mongoose from 'mongoose';
 import seed from './seed';
 

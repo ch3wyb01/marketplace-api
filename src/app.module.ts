@@ -3,8 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SeedDatabaseService } from './db/seeds/seed.service';
-import { ProductsModule } from './products/products.module';
+import { SeedDatabaseService } from './Utilities/seeds/seed.service';
+import { ProductsModule } from './API/products/products.module';
 
 @Module({
   imports: [

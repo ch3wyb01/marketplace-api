@@ -1,4 +1,4 @@
-import { IProduct } from "src/products/product.interface";
+import { IProduct } from "src/API/products/product.interface";
 
 const productsData: IProduct[] = [
   {
