@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { SeedDatabaseService } from './Utilities/seeds/seed.service';
 import { APIModule } from './API/API.module';
 import { DomainModule } from './Domain/Domain.module';
-import { PersistenceModule } from './Persistence/Persistence.Module';
+import { PersistenceModule } from './Persistence/Persistence.module';
 import { UtilitiesModule } from './Utilities/Utilities.module';
 
 @Module({
