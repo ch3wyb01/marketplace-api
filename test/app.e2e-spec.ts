@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import testData from '../src/Persistence/data/test-data/index';
 import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
-import { ProductDTO } from 'src/API/products/product.dto';
+import { ProductDTO } from '../src/API/products/product.dto';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
