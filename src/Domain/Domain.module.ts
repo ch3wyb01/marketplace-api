@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PersistenceModule } from 'src/Persistence/Persistence.Module';
+import { PersistenceModule } from 'src/Persistence/Persistence.module';
 import { UtilitiesModule } from 'src/Utilities/Utilities.module';
 import { ProductsModule } from './products/products.module';
 
