@@ -39,6 +39,7 @@ describe('GET /products', () => {
           title: expect.any(String),
           description: expect.any(String),
           price: expect.any(Number),
+          categories: expect.arrayContaining([expect.any(String)]),
         }),
       );
     });
@@ -81,6 +82,7 @@ describe('GET /products/:id', () => {
       title: 'Abacus',
       description: 'A wooden abacus that will help teach counting skills',
       price: 10,
+      categories: ['Education', 'Toys'],
     });
   });
 });
