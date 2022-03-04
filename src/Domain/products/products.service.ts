@@ -1,28 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { CategoryNameMapper } from '../../Utilities/mappers/categoryName.mapper';
 import { ProductsRepository } from '../../Persistence/products/products.repository';
+import { Product } from '../../Persistence/products/product.schema';
+import { IProduct } from './IProduct';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  async insertProduct(
-    body: {
-      title: string;
-      description: string;
-      price: number;
-    },
-  ) {
+  async insertProduct(body: {
+    title: string;
+    description: string;
+    price: number;
+  }) {
     const product = await this.productsRepository.insertProduct(body);
     return product;
   }
 
-  async fetchAllProducts() {
-    const products = await this.productsRepository.fetchAllProducts();
+  async fetchAllProducts(): Promise<IProduct[]> {
+    const products: IProduct[] =
+      await this.productsRepository.fetchAllProducts();
+
+    products.forEach((product) => {
+      product.categories = CategoryNameMapper(product.categories);
+    });
     return products;
   }
 
-  async fetchProductById(prodId: string) {
-    const product = await this.productsRepository.fetchProductById(prodId);
+  async fetchProductById(prodId: string): Promise<IProduct> {
+    const dbProduct: IProduct = await this.productsRepository.fetchProductById(
+      prodId,
+    );
+
+    const categoryNames: string[] = CategoryNameMapper(dbProduct.categories);
+    const product: IProduct = { ...dbProduct, categories: categoryNames };
+
     return product;
   }
 
