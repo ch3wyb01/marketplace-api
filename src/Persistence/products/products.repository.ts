@@ -21,23 +21,30 @@ export class ProductsRepository implements IProductsRepository {
   }
 
   async fetchAllProducts(): Promise<Product[]> {
-    const products = await this.productModel.find().exec();
+    const products = await this.productModel
+      .find()
+      .populate({ path: 'categories' })
+      .lean() as Product[];
+    console.log(products);
     return products;
   }
 
   async fetchProductById(prodId: string): Promise<Product> {
-    const product = await this.productModel.findById(prodId);
+    const product: Product = await this.productModel
+      .findById(prodId)
+      .populate({ path: 'categories' })
+      .lean();
     return product;
   }
 
   async updateProductById(
     prodId: string,
-    updatedFields : {
-     title?: string, description?: string, price?: number
-    }
+    updatedFields: {
+      title?: string;
+      description?: string;
+      price?: number;
+    },
   ): Promise<Product> {
-    
-
     const product = await this.productModel.findByIdAndUpdate(
       { _id: prodId },
       updatedFields,
