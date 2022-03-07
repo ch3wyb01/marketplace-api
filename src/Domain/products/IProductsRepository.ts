@@ -5,6 +5,7 @@ export interface IProductsRepository {
     title: string;
     description: string;
     price: number;
+    categories: string[];
   }): Promise<Product>;
 
   fetchAllProducts(): Promise<Product[]>;

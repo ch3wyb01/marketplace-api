@@ -52,6 +52,7 @@ describe('POST /products', () => {
       title: 'A new product',
       description: 'This is shiny and brand new',
       price: 100,
+      categories: ['6220f9ab230ed15af3d3dffc']
     };
     const {
       body: { product },
@@ -65,6 +66,7 @@ describe('POST /products', () => {
         title: 'A new product',
         description: 'This is shiny and brand new',
         price: 100,
+        categories: ['Household']
       }),
     );
   });

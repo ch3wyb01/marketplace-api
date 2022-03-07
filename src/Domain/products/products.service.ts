@@ -12,8 +12,13 @@ export class ProductsService {
     title: string;
     description: string;
     price: number;
-  }) {
-    const product = await this.productsRepository.insertProduct(body);
+    categories: string[];
+  }): Promise<IProduct> {
+    const product: IProduct = await this.productsRepository.insertProduct(body);
+
+    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    product.categories = categoryNames;
+
     return product;
   }
 
@@ -28,12 +33,12 @@ export class ProductsService {
   }
 
   async fetchProductById(prodId: string): Promise<IProduct> {
-    const dbProduct: IProduct = await this.productsRepository.fetchProductById(
+    const product: IProduct = await this.productsRepository.fetchProductById(
       prodId,
     );
 
-    const categoryNames: string[] = CategoryNameMapper(dbProduct.categories);
-    const product: IProduct = { ...dbProduct, categories: categoryNames };
+    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    product.categories = categoryNames;
 
     return product;
   }

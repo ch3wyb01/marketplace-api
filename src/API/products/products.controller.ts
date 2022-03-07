@@ -20,12 +20,11 @@ export class ProductsController {
 
   @Post()
   async addProduct(
-    @Body() completeBody: { title: string; description: string; price: number },
+    @Body() completeBody: { title: string; description: string; price: number, categories: string[] },
   ): Promise<{ product: ProductDTO }> {
-    const dbProduct = await this.productsService.insertProduct(completeBody);
+    const dbProduct: IProduct = await this.productsService.insertProduct(completeBody);
 
     const product = ProductMapper(dbProduct);
-
     return { product };
   }
 
@@ -33,6 +32,7 @@ export class ProductsController {
   async getAllProducts(): Promise<{ products: ProductDTO[] }> {
     const dbProducts: IProduct[] =
       await this.productsService.fetchAllProducts();
+
     const products = dbProducts.map(ProductMapper);
     return { products };
   }
@@ -44,6 +44,7 @@ export class ProductsController {
     const dbProduct: IProduct = await this.productsService.fetchProductById(
       prodId,
     );
+    
     const product: ProductDTO = ProductMapper(dbProduct);
     return { product };
   }

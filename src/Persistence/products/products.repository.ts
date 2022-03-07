@@ -11,21 +11,32 @@ export class ProductsRepository implements IProductsRepository {
     private readonly productModel: Model<Product>,
   ) {}
 
-  async insertProduct({ title, description, price }): Promise<Product> {
-    const product = await this.productModel.create({
+  async insertProduct({
+    title,
+    description,
+    price,
+    categories,
+  }): Promise<Product> {
+    const newProduct: Product = await this.productModel.create({
       title,
       description,
       price,
+      categories,
     });
+
+    const product: Product = await this.productModel
+      .findById(newProduct.id)
+      .populate({ path: 'categories' })
+      .lean();
+
     return product;
   }
 
   async fetchAllProducts(): Promise<Product[]> {
-    const products = await this.productModel
+    const products = (await this.productModel
       .find()
       .populate({ path: 'categories' })
-      .lean() as Product[];
-    console.log(products);
+      .lean()) as Product[];
     return products;
   }
 
