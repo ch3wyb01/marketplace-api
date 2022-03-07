@@ -133,7 +133,7 @@ describe('/products', () => {
 
 describe('/categories', () => {
   describe('GET /categories', () => {
-    test.only('200: returns array of categories', async () => {
+    test('200: returns array of categories', async () => {
       const {
         body: { categories },
       } = await request(app.getHttpServer()).get('/categories').expect(200);
@@ -147,6 +147,27 @@ describe('/categories', () => {
           }),
         );
       });
+    });
+  });
+
+  describe('POST /categories', () => {
+    test('201: should create and return new category', async () => {
+      const newCategory = {
+        category_name: 'Garden',
+        category_description: 'Why not make your own grass greener?',
+      };
+      const {
+        body: { category },
+      } = await request(app.getHttpServer())
+        .post('/categories')
+        .send(newCategory)
+        .expect(201);
+      expect(category).toEqual(
+        expect.objectContaining({
+          category_name: 'Garden',
+          category_description: 'Why not make your own grass greener?',
+        }),
+      );
     });
   });
 });
