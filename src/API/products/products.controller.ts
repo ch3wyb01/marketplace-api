@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { IProduct } from 'src/Domain/products/IProduct';
 import { ProductsService } from '../../Domain/products/products.service';
-import { Product } from '../../Persistence/products/product.schema';
 import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { ProductDTO } from './product.dto';
 
@@ -20,9 +19,17 @@ export class ProductsController {
 
   @Post()
   async addProduct(
-    @Body() completeBody: { title: string; description: string; price: number, categories: string[] },
+    @Body()
+    completeBody: {
+      title: string;
+      description: string;
+      price: number;
+      categories: string[];
+    },
   ): Promise<{ product: ProductDTO }> {
-    const dbProduct: IProduct = await this.productsService.insertProduct(completeBody);
+    const dbProduct: IProduct = await this.productsService.insertProduct(
+      completeBody,
+    );
 
     const product = ProductMapper(dbProduct);
     return { product };
@@ -44,7 +51,7 @@ export class ProductsController {
     const dbProduct: IProduct = await this.productsService.fetchProductById(
       prodId,
     );
-    
+
     const product: ProductDTO = ProductMapper(dbProduct);
     return { product };
   }
@@ -53,15 +60,22 @@ export class ProductsController {
   @HttpCode(200)
   async patchProductById(
     @Param('id') prodId: string,
-    @Body() completeBody: { title: string; description: string; price: number },
+    @Body()
+    completeBody: {
+      title: string;
+      description: string;
+      price: number;
+      categories: string[];
+    },
   ): Promise<{ product: ProductDTO }> {
-    const { title, description, price } = completeBody;
+    const { title, description, price, categories } = completeBody;
 
     const dbProduct = await this.productsService.updateProductById(
       prodId,
       title,
       description,
       price,
+      categories,
     );
 
     const product = ProductMapper(dbProduct);

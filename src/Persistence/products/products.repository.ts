@@ -37,6 +37,7 @@ export class ProductsRepository implements IProductsRepository {
       .find()
       .populate({ path: 'categories' })
       .lean()) as Product[];
+
     return products;
   }
 
@@ -45,6 +46,7 @@ export class ProductsRepository implements IProductsRepository {
       .findById(prodId)
       .populate({ path: 'categories' })
       .lean();
+
     return product;
   }
 
@@ -54,15 +56,17 @@ export class ProductsRepository implements IProductsRepository {
       title?: string;
       description?: string;
       price?: number;
+      categories?: string[];
     },
   ): Promise<Product> {
-    const product = await this.productModel.findByIdAndUpdate(
-      { _id: prodId },
-      updatedFields,
-      { returnDocument: 'after' },
-    );
+    const product: Product = await this.productModel
+      .findByIdAndUpdate({ _id: prodId }, updatedFields, {
+        returnDocument: 'after',
+      })
+      .populate({ path: 'categories' })
+      .lean();
 
-    return product;
+      return product;
   }
 
   async removeProductById(prodId: string) {

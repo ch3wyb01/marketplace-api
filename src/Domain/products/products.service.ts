@@ -48,19 +48,30 @@ export class ProductsService {
     title: string,
     description: string,
     price: number,
-  ) {
+    categories: string[],
+  ): Promise<IProduct> {
     const inputtedFields = [
       ['title', title],
       ['description', description],
       ['price', price],
+      ['categories', categories],
     ].filter((field) => field[1]);
 
-    const updatedFields = Object.fromEntries(inputtedFields);
+    const updatedFields: {
+      title?: string;
+      description?: string;
+      price?: number;
+      categories?: string[];
+    } = Object.fromEntries(inputtedFields);
 
-    const product = await this.productsRepository.updateProductById(
+    const product: IProduct = await this.productsRepository.updateProductById(
       prodId,
       updatedFields,
     );
+
+    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    product.categories = categoryNames;
+
     return product;
   }
 

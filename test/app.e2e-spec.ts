@@ -105,6 +105,7 @@ describe('PATCH /products/:id', () => {
         title: 'Blue Whale Plush',
         description: 'A small fluffy whale plush toy',
         price: 8,
+        categories: ['Toys']
       }),
     );
   });
