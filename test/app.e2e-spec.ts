@@ -110,6 +110,43 @@ describe('/products', () => {
         }),
       );
     });
+    test('200: returns updated product when passed multiple new fields', async () => {
+      const updateFields = {
+        description: 'A small fluffy whale plush toy',
+        categories: '6220f9ab230ed15af3d3dffa',
+      };
+      const {
+        body: { product },
+      } = await request(app.getHttpServer())
+        .patch('/products/621f912430f443d5067c39f1')
+        .send(updateFields)
+        .expect(200);
+      expect(product).toEqual(
+        expect.objectContaining({
+          title: 'Blue Whale Plush',
+          description: 'A small fluffy whale plush toy',
+          price: 8,
+          categories: ['Education'],
+        }),
+      );
+    });
+    test('200: returns original product when passed no new fields', async () => {
+      const updateFields = {};
+      const {
+        body: { product },
+      } = await request(app.getHttpServer())
+        .patch('/products/621f912430f443d5067c39f1')
+        .send(updateFields)
+        .expect(200);
+      expect(product).toEqual(
+        expect.objectContaining({
+          title: 'Blue Whale Plush',
+          description: 'A small whale teddy',
+          price: 8,
+          categories: ['Toys'],
+        }),
+      );
+    });
   });
 
   describe('DELETE /products/:id', () => {
