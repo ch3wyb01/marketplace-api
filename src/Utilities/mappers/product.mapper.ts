@@ -6,6 +6,7 @@ export const ProductMapper = (product: IProduct): ProductDTO => {
     product._id,
     product.title,
     product.description,
+    product.img_url,
     product.price,
     product.categories,
   );
