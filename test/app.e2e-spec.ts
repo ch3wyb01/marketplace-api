@@ -39,6 +39,7 @@ describe('/products', () => {
             id: expect.any(String),
             title: expect.any(String),
             description: expect.any(String),
+            img_url: expect.any(String),
             price: expect.any(Number),
             categories: expect.arrayContaining([expect.any(String)]),
           }),
@@ -52,6 +53,7 @@ describe('/products', () => {
       const newProduct = {
         title: 'A new product',
         description: 'This is shiny and brand new',
+        img_url: 'https://img_url.com',
         price: 100,
         categories: ['6220f9ab230ed15af3d3dffc'],
       };
@@ -66,6 +68,7 @@ describe('/products', () => {
           id: expect.any(String),
           title: 'A new product',
           description: 'This is shiny and brand new',
+          img_url: 'https://img_url.com',
           price: 100,
           categories: ['Household'],
         }),
@@ -80,13 +83,15 @@ describe('/products', () => {
       } = await request(app.getHttpServer())
         .get('/products/621f912430f443d5067c39f0')
         .expect(200);
-      expect(product).toEqual({
-        id: '621f912430f443d5067c39f0',
-        title: 'Abacus',
-        description: 'A wooden abacus that will help teach counting skills',
-        price: 10,
-        categories: ['Education', 'Toys'],
-      });
+      expect(product).toEqual(
+        expect.objectContaining({
+          id: '621f912430f443d5067c39f0',
+          title: 'Abacus',
+          description: 'A wooden abacus that will help teach counting skills',
+          price: 10,
+          categories: ['Education', 'Toys'],
+        }),
+      );
     });
   });
 
