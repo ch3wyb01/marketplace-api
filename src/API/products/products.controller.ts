@@ -23,6 +23,7 @@ export class ProductsController {
     completeBody: {
       title: string;
       description: string;
+      img_url: string;
       price: number;
       categories: string[];
     },
@@ -64,16 +65,18 @@ export class ProductsController {
     completeBody: {
       title: string;
       description: string;
+      img_url: string;
       price: number;
       categories: string[];
     },
   ): Promise<{ product: ProductDTO }> {
-    const { title, description, price, categories } = completeBody;
+    const { title, description, img_url, price, categories } = completeBody;
 
     const dbProduct = await this.productsService.updateProductById(
       prodId,
       title,
       description,
+      img_url,
       price,
       categories,
     );

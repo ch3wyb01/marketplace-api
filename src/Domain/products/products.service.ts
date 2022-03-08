@@ -11,6 +11,7 @@ export class ProductsService {
   async insertProduct(body: {
     title: string;
     description: string;
+    img_url: string;
     price: number;
     categories: string[];
   }): Promise<IProduct> {
@@ -47,12 +48,14 @@ export class ProductsService {
     prodId: string,
     title: string,
     description: string,
+    img_url: string,
     price: number,
     categories: string[],
   ): Promise<IProduct> {
     const inputtedFields = [
       ['title', title],
       ['description', description],
+      ['img_url', img_url],
       ['price', price],
       ['categories', categories],
     ].filter((field) => field[1]);
@@ -60,6 +63,7 @@ export class ProductsService {
     const updatedFields: {
       title?: string;
       description?: string;
+      img_url?: string;
       price?: number;
       categories?: string[];
     } = Object.fromEntries(inputtedFields);

@@ -14,12 +14,14 @@ export class ProductsRepository implements IProductsRepository {
   async insertProduct({
     title,
     description,
+    img_url,
     price,
     categories,
   }): Promise<Product> {
     const newProduct: Product = await this.productModel.create({
       title,
       description,
+      img_url,
       price,
       categories,
     });
@@ -55,6 +57,7 @@ export class ProductsRepository implements IProductsRepository {
     updatedFields: {
       title?: string;
       description?: string;
+      img_url?: string;
       price?: number;
       categories?: string[];
     },
@@ -66,7 +69,7 @@ export class ProductsRepository implements IProductsRepository {
       .populate({ path: 'categories' })
       .lean();
 
-      return product;
+    return product;
   }
 
   async removeProductById(prodId: string) {

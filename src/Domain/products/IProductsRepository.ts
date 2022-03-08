@@ -4,6 +4,7 @@ export interface IProductsRepository {
   insertProduct(body: {
     title: string;
     description: string;
+    img_url: string;
     price: number;
     categories: string[];
   }): Promise<Product>;
@@ -17,6 +18,7 @@ export interface IProductsRepository {
     updatedFields: {
       title?: string;
       description?: string;
+      img_url?: string;
       price?: number;
       categories?: string[];
     },
