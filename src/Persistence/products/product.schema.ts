@@ -15,6 +15,9 @@ class _productSchema implements IProduct {
   description: string;
 
   @Prop({ required: true })
+  img_url: string;
+
+  @Prop({ required: true })
   price: number;
 
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'Category' })
