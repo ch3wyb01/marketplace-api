@@ -1,3 +1,4 @@
+import categoriesData from './categories';
 import productsData from './products';
 
-export default { productsData };
+export default { categoriesData, productsData };
