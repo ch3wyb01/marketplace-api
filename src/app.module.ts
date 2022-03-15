@@ -5,6 +5,8 @@ import { APIModule } from './API/API.module';
 import { DomainModule } from './Domain/Domain.module';
 import { PersistenceModule } from './Persistence/Persistence.module';
 import { UtilitiesModule } from './Utilities/Utilities.module';
+import { APP_FILTER } from '@nestjs/core';
+import { ClassValidationExceptionHandler } from './Utilities/ClassValidationExceptionHandler';
 
 @Module({
   imports: [
@@ -20,9 +22,17 @@ import { UtilitiesModule } from './Utilities/Utilities.module';
       },
       inject: [ConfigService],
     }),
-    APIModule, DomainModule, PersistenceModule, UtilitiesModule
+    APIModule,
+    DomainModule,
+    PersistenceModule,
+    UtilitiesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ClassValidationExceptionHandler,
+    },
+  ],
 })
 export class AppModule {}
