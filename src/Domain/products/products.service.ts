@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CategoryNameMapper } from '../../Utilities/mappers/categoryName.mapper';
 import { ProductsRepository } from '../../Persistence/products/products.repository';
-import { Product } from '../../Persistence/products/product.schema';
 import { IProduct } from './IProduct';
 
 @Injectable()
