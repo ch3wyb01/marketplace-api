@@ -11,6 +11,7 @@ import {
 import { IProduct } from 'src/Domain/products/IProduct';
 import { ProductsService } from '../../Domain/products/products.service';
 import { ProductMapper } from '../../Utilities/mappers/product.mapper';
+import { NewProductDTO } from './newProduct.dto';
 import { ProductDTO } from './product.dto';
 
 @Controller('products')
@@ -20,13 +21,7 @@ export class ProductsController {
   @Post()
   async addProduct(
     @Body()
-    completeBody: {
-      title: string;
-      description: string;
-      img_url: string;
-      price: number;
-      categories: string[];
-    },
+    completeBody: NewProductDTO,
   ): Promise<{ product: ProductDTO }> {
     const dbProduct: IProduct = await this.productsService.insertProduct(
       completeBody,
