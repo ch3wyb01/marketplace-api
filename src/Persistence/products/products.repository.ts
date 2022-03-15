@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IProductsRepository } from '../../Domain/products/IProductsRepository';
@@ -49,7 +53,9 @@ export class ProductsRepository implements IProductsRepository {
       .populate({ path: 'categories' })
       .lean();
 
-    return product;
+    if (product) {
+      return product;
+    } else throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
   }
 
   async updateProductById(

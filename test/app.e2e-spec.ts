@@ -93,6 +93,14 @@ describe('/products', () => {
         }),
       );
     });
+    test('404: returns not found message when passed valid but non-existent product ID', async () => {
+      const {
+        body: { message },
+      } = await request(app.getHttpServer())
+        .get('/products/621f812430f463d5067c39f2')
+        .expect(404);
+      expect(message).toBe('Product not found');
+    });
   });
 
   describe('PATCH /products/:id', () => {
