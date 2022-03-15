@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import testData from '../src/Persistence/data/test-data/index';
 import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
 import { ProductDTO } from '../src/API/products/product.dto';
-import { CategoryDTO } from 'src/API/categories/category.dto';
+import { CategoryDTO } from '../src/API/categories/category.dto';
+import { validationPipeOptions } from '../src/Utilities/validationPipeOptions';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
@@ -17,6 +18,7 @@ beforeEach(async () => {
   }).compile();
 
   app = moduleFixture.createNestApplication();
+  app.useGlobalPipes(new ValidationPipe(validationPipeOptions));
   await app.init();
 
   seedService = app.get(SeedDatabaseService);
@@ -73,6 +75,24 @@ describe('/products', () => {
           categories: ['Household'],
         }),
       );
+    });
+    test('400: returns error message when passed invalid property type', async () => {
+      const newProduct = {
+        title: 'A new product',
+        description: 'This is shiny and brand new',
+        img_url: 'https://img_url.com',
+        categories: ['6220f9ab230ed15af3d3dffc'],
+      };
+      const {
+        body: { message },
+      } = await request(app.getHttpServer())
+        .post('/products')
+        .send(newProduct)
+        .expect(400);
+      expect(message).toEqual([
+        'price must be a number conforming to the specified constraints',
+        'price should not be empty',
+      ]);
     });
   });
 
