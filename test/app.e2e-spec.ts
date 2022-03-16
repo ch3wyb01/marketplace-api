@@ -6,7 +6,7 @@ import testData from '../src/Persistence/data/test-data/index';
 import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
 import { ProductDTO } from '../src/API/products/product.dto';
 import { CategoryDTO } from '../src/API/categories/category.dto';
-import { validationPipeOptions } from '../src/Utilities/validationPipeOptions';
+import { validationPipeOptions } from '../src/Utilities/validation/validationPipeOptions';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
