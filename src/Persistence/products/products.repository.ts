@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IProduct } from 'src/Domain/products/IProduct';
+import { IProduct } from '../../Domain/products/IProduct';
 import { IProductsRepository } from '../../Domain/products/IProductsRepository';
 import { Product } from './product.schema';
 
@@ -12,20 +12,8 @@ export class ProductsRepository implements IProductsRepository {
     private readonly productModel: Model<Product>,
   ) {}
 
-  async insertProduct({
-    title,
-    description,
-    img_url,
-    price,
-    categories,
-  }): Promise<Product> {
-    const newProduct: Product = await this.productModel.create({
-      title,
-      description,
-      img_url,
-      price,
-      categories,
-    });
+  async insertProduct(body: IProduct): Promise<Product> {
+    const newProduct: Product = await this.productModel.create(body);
 
     const product: Product = await this.productModel
       .findById(newProduct.id)
@@ -56,7 +44,7 @@ export class ProductsRepository implements IProductsRepository {
 
   async updateProductById(
     prodId: string,
-    updatedFields: Partial<IProduct>
+    updatedFields: Partial<IProduct>,
   ): Promise<Product> {
     const product: Product = await this.productModel
       .findByIdAndUpdate({ _id: prodId }, updatedFields, {
@@ -73,6 +61,9 @@ export class ProductsRepository implements IProductsRepository {
     const product = await this.productModel.findByIdAndDelete(prodId);
 
     if (!product)
-      throw new HttpException('Product not found and couldn\'t be deleted', HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        "Product not found and couldn't be deleted",
+        HttpStatus.NOT_FOUND,
+      );
   }
 }

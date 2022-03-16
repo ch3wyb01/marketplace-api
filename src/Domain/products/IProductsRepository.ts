@@ -1,13 +1,8 @@
 import { Product } from '../../Persistence/products/product.schema';
+import { IProduct } from './IProduct';
 
 export interface IProductsRepository {
-  insertProduct(body: {
-    title: string;
-    description: string;
-    img_url: string;
-    price: number;
-    categories: string[];
-  }): Promise<Product>;
+  insertProduct(body: IProduct): Promise<Product>;
 
   fetchAllProducts(): Promise<Product[]>;
 
@@ -15,13 +10,7 @@ export interface IProductsRepository {
 
   updateProductById(
     prodId: string,
-    updatedFields: {
-      title?: string;
-      description?: string;
-      img_url?: string;
-      price?: number;
-      categories?: string[];
-    },
+    updatedFields: Partial<IProduct>,
   ): Promise<Product>;
 
   removeProductById(prodId: string): Promise<void>;

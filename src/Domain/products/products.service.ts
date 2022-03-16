@@ -7,13 +7,7 @@ import { IProduct } from './IProduct';
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  async insertProduct(body: {
-    title: string;
-    description: string;
-    img_url: string;
-    price: number;
-    categories: string[];
-  }): Promise<IProduct> {
+  async insertProduct(body: IProduct): Promise<IProduct> {
     const product: IProduct = await this.productsRepository.insertProduct(body);
 
     const categoryNames: string[] = CategoryNameMapper(product.categories);
