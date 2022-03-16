@@ -6,7 +6,7 @@ import { DomainModule } from './Domain/Domain.module';
 import { PersistenceModule } from './Persistence/Persistence.module';
 import { UtilitiesModule } from './Utilities/Utilities.module';
 import { APP_FILTER } from '@nestjs/core';
-import { CustomExceptionHandler } from './Utilities/CustomExceptionHandler';
+import { CustomExceptionHandler } from './Utilities/exceptionHandler/CustomExceptionHandler';
 
 @Module({
   imports: [
