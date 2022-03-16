@@ -28,6 +28,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await seedService.CloseConnection();
 });
+
 describe('/products', () => {
   describe('GET /products', () => {
     test('200: returns array of product objects', async () => {
@@ -76,7 +77,7 @@ describe('/products', () => {
         }),
       );
     });
-    test('400: returns error message when passed invalid property type', async () => {
+    test('400: returns validation error message when passed invalid property type', async () => {
       const newProduct = {
         title: 'A new product',
         description: 'This is shiny and brand new',
@@ -120,6 +121,12 @@ describe('/products', () => {
         .get('/products/621f812430f463d5067c39f2')
         .expect(404);
       expect(message).toBe('Product not found');
+    });
+    test('400: returns error message when passed invalid product ID', async () => {
+      const {
+        body: { message },
+      } = await request(app.getHttpServer()).get('/products/268').expect(400);
+      expect(message).toBe('Invalid Product ID');
     });
   });
 
@@ -216,7 +223,7 @@ describe('/products', () => {
       } = await request(app.getHttpServer())
         .delete('/products/621f812430f463d5067c39f8')
         .expect(404);
-      expect(message).toBe('Product not found');
+      expect(message).toBe("Product not found and couldn't be deleted");
     });
   });
 });
