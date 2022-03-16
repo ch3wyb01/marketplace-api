@@ -5,11 +5,11 @@ import {
   HttpStatus,
   ValidationError,
 } from '@nestjs/common';
-import { ClassValidatorException } from './ClassValidatorException';
+import { ClassValidatorException } from './validation/ClassValidatorException';
 import { Response } from 'express';
 
 @Catch(ClassValidatorException)
-export class ClassValidationExceptionHandler implements ExceptionFilter {
+export class CustomExceptionHandler implements ExceptionFilter {
   catch(exception: ClassValidatorException, host: ArgumentsHost) {
     const { formattedErrors } = exception;
     const context = host.switchToHttp();
