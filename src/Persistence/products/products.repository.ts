@@ -78,6 +78,6 @@ export class ProductsRepository implements IProductsRepository {
     const product = await this.productModel.findByIdAndDelete(prodId);
 
     if (!product)
-      throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Product not found and couldn\'t be deleted', HttpStatus.NOT_FOUND);
   }
 }
