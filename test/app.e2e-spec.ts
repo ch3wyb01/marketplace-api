@@ -180,6 +180,18 @@ describe('/products', () => {
         }),
       );
     });
+    test('404: returns not found message when passed valid but non-existent product ID', async () => {
+      const updateFields = {
+        description: 'A small fluffy whale plush toy',
+      };
+      const {
+        body: { message },
+      } = await request(app.getHttpServer())
+        .patch('/products/621f812430f463d5067c39f8')
+        .send(updateFields)
+        .expect(404);
+      expect(message).toBe('Product not found');
+    });
   });
 
   describe('DELETE /products/:id', () => {
@@ -197,6 +209,14 @@ describe('/products', () => {
           }),
         );
       });
+    });
+    test('404: returns not found message when passed valid but non-existent product ID', async () => {
+      const {
+        body: { message },
+      } = await request(app.getHttpServer())
+        .delete('/products/621f812430f463d5067c39f8')
+        .expect(404);
+      expect(message).toBe('Product not found');
     });
   });
 });
