@@ -200,6 +200,20 @@ describe('/products', () => {
         .expect(404);
       expect(errors).toBe('Product not found');
     });
+    test('400: returns error message when passed invalid product ID', async () => {
+      const updateFields = {
+        description: 'A small fluffy whale plush toy',
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/products/invalid26')
+        .send(updateFields)
+        .expect(400);
+      expect(errors).toEqual({
+        product: 'Invalid Product ID',
+      });
+    });
   });
 
   describe('DELETE /products/:id', () => {
@@ -225,6 +239,16 @@ describe('/products', () => {
         .delete('/products/621f812430f463d5067c39f8')
         .expect(404);
       expect(errors).toBe("Product not found and couldn't be deleted");
+    });
+  });
+  test('400: returns error message when passed invalid product ID', async () => {
+    const {
+      body: { errors },
+    } = await request(app.getHttpServer())
+      .delete('/products/invalid26')
+      .expect(400);
+    expect(errors).toEqual({
+      product: 'Invalid Product ID',
     });
   });
 });
