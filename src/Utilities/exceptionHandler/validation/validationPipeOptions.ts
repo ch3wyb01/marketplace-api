@@ -3,6 +3,7 @@ import { ClassValidatorException } from './ClassValidatorException';
 
 export const validationPipeOptions: ValidationPipeOptions = {
   transform: true,
-  exceptionFactory: (errors: ValidationError[]) =>
-    new ClassValidatorException(errors),
+  exceptionFactory: (errors: ValidationError[]) => {
+    return new ClassValidatorException(errors);
+  },
 };
