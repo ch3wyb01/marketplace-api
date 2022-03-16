@@ -77,7 +77,7 @@ describe('/products', () => {
         }),
       );
     });
-    test('400: returns validation error message when passed invalid property type', async () => {
+    test('400: returns validation error message when passed missing property type', async () => {
       const newProduct = {
         title: 'A new product',
         description: 'This is shiny and brand new',
@@ -91,6 +91,25 @@ describe('/products', () => {
         .send(newProduct)
         .expect(400);
       expect(errors).toEqual({
+        price: 'price must be a number conforming to the specified constraints',
+      });
+    });
+    test('400: returns validation error message when passed multiple invalid property types', async () => {
+      const newProduct = {
+        title: 28,
+        description: 'This is shiny and brand new',
+        img_url: 'https://img_url.com',
+        price: 'pennies',
+        categories: ['6220f9ab230ed15af3d3dffc'],
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .post('/products')
+        .send(newProduct)
+        .expect(400);
+      expect(errors).toEqual({
+        title: 'title must be a string',
         price: 'price must be a number conforming to the specified constraints',
       });
     });
@@ -214,6 +233,18 @@ describe('/products', () => {
         product: 'Invalid Product ID',
       });
     });
+    test('400: returns validation error message when passed invalid property type', async () => {
+      const updateFields = { description: 33 };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/products/621f912430f443d5067c39f1')
+        .send(updateFields)
+        .expect(400);
+      expect(errors).toEqual({
+        description: 'description must be a string',
+      });
+    });
   });
 
   describe('DELETE /products/:id', () => {
@@ -240,15 +271,15 @@ describe('/products', () => {
         .expect(404);
       expect(errors).toBe("Product not found and couldn't be deleted");
     });
-  });
-  test('400: returns error message when passed invalid product ID', async () => {
-    const {
-      body: { errors },
-    } = await request(app.getHttpServer())
-      .delete('/products/invalid26')
-      .expect(400);
-    expect(errors).toEqual({
-      product: 'Invalid Product ID',
+    test('400: returns error message when passed invalid product ID', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .delete('/products/invalid26')
+        .expect(400);
+      expect(errors).toEqual({
+        product: 'Invalid Product ID',
+      });
     });
   });
 });
