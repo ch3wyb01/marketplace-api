@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { IProduct } from 'src/Domain/products/IProduct';
 import { IProductsRepository } from '../../Domain/products/IProductsRepository';
 import { Product } from './product.schema';
 
@@ -55,13 +56,7 @@ export class ProductsRepository implements IProductsRepository {
 
   async updateProductById(
     prodId: string,
-    updatedFields: {
-      title?: string;
-      description?: string;
-      img_url?: string;
-      price?: number;
-      categories?: string[];
-    },
+    updatedFields: Partial<IProduct>
   ): Promise<Product> {
     const product: Product = await this.productModel
       .findByIdAndUpdate({ _id: prodId }, updatedFields, {
