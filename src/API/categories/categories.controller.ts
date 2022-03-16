@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CategoriesService } from '../../Domain/categories/categories.service';
 import { CategoryMapper } from '../../Utilities/mappers/category.mapper';
 import { CategoryDTO } from './category.dto';
+import { NewCategoryDTO } from './newCategory.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -17,10 +18,7 @@ export class CategoriesController {
   @Post()
   async addCategory(
     @Body()
-    completeBody: {
-      category_name: string;
-      category_description: string;
-    },
+    completeBody: NewCategoryDTO,
   ): Promise<{ category: CategoryDTO }> {
     const dbCategory = await this.categoriesService.insertCategory(
       completeBody,
