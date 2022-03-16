@@ -45,28 +45,8 @@ export class ProductsService {
 
   async updateProductById(
     prodId: string,
-    title: string,
-    description: string,
-    img_url: string,
-    price: number,
-    categories: string[],
+    updatedFields: Partial<IProduct>,
   ): Promise<IProduct> {
-    const inputtedFields = [
-      ['title', title],
-      ['description', description],
-      ['img_url', img_url],
-      ['price', price],
-      ['categories', categories],
-    ].filter((field) => field[1]);
-
-    const updatedFields: {
-      title?: string;
-      description?: string;
-      img_url?: string;
-      price?: number;
-      categories?: string[];
-    } = Object.fromEntries(inputtedFields);
-
     const product: IProduct = await this.productsRepository.updateProductById(
       prodId,
       updatedFields,
