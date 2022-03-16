@@ -6,7 +6,7 @@ import testData from '../src/Persistence/data/test-data/index';
 import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
 import { ProductDTO } from '../src/API/products/product.dto';
 import { CategoryDTO } from '../src/API/categories/category.dto';
-import { validationPipeOptions } from '../src/Utilities/validation/validationPipeOptions';
+import { validationPipeOptions } from '../src/Utilities/exceptionHandler/validation/validationPipeOptions';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
@@ -85,15 +85,14 @@ describe('/products', () => {
         categories: ['6220f9ab230ed15af3d3dffc'],
       };
       const {
-        body: { message },
+        body: { errors },
       } = await request(app.getHttpServer())
         .post('/products')
         .send(newProduct)
         .expect(400);
-      expect(message).toEqual([
-        'price must be a number conforming to the specified constraints',
-        'price should not be empty',
-      ]);
+      expect(errors).toEqual({
+        price: 'price must be a number conforming to the specified constraints',
+      });
     });
   });
 
@@ -116,17 +115,19 @@ describe('/products', () => {
     });
     test('404: returns not found message when passed valid but non-existent product ID', async () => {
       const {
-        body: { message },
+        body: { errors },
       } = await request(app.getHttpServer())
         .get('/products/621f812430f463d5067c39f2')
         .expect(404);
-      expect(message).toBe('Product not found');
+      expect(errors).toBe('Product not found');
     });
     test('400: returns error message when passed invalid product ID', async () => {
       const {
-        body: { message },
+        body: { errors },
       } = await request(app.getHttpServer()).get('/products/268').expect(400);
-      expect(message).toBe('Invalid Product ID');
+      expect(errors).toEqual({
+        product: 'Invalid Product ID',
+      });
     });
   });
 
@@ -192,12 +193,12 @@ describe('/products', () => {
         description: 'A small fluffy whale plush toy',
       };
       const {
-        body: { message },
+        body: { errors },
       } = await request(app.getHttpServer())
         .patch('/products/621f812430f463d5067c39f8')
         .send(updateFields)
         .expect(404);
-      expect(message).toBe('Product not found');
+      expect(errors).toBe('Product not found');
     });
   });
 
@@ -219,11 +220,11 @@ describe('/products', () => {
     });
     test('404: returns not found message when passed valid but non-existent product ID', async () => {
       const {
-        body: { message },
+        body: { errors },
       } = await request(app.getHttpServer())
         .delete('/products/621f812430f463d5067c39f8')
         .expect(404);
-      expect(message).toBe("Product not found and couldn't be deleted");
+      expect(errors).toBe("Product not found and couldn't be deleted");
     });
   });
 });
