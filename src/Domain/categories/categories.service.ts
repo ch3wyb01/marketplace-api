@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CategoriesRepository } from '../../Persistence/categories/categories.repository';
+import { ICategory } from './ICategory';
 
 @Injectable()
 export class CategoriesService {
@@ -10,10 +11,7 @@ export class CategoriesService {
     return categories;
   }
 
-  async insertCategory(body: {
-    category_name: string;
-    category_description: string;
-  }) {
+  async insertCategory(body: Partial<ICategory>) {
     const category = await this.categoriesRepository.insertCategory(body);
     return category;
   }

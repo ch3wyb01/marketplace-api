@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ICategoriesRepository } from 'src/Domain/categories/ICategoriesRepository';
+import { ICategoriesRepository } from '../../Domain/categories/ICategoriesRepository';
 import { Model } from 'mongoose';
 import { Category } from './category.schema';
+import { ICategory } from '../../Domain/categories/ICategory';
 
 @Injectable()
 export class CategoriesRepository implements ICategoriesRepository {
@@ -16,14 +17,8 @@ export class CategoriesRepository implements ICategoriesRepository {
     return categories;
   }
 
-  async insertCategory({
-    category_name,
-    category_description,
-  }): Promise<Category> {
-    const category = await this.categoryModel.create({
-      category_name,
-      category_description,
-    });
+  async insertCategory(body: Partial<ICategory>): Promise<Category> {
+    const category = await this.categoryModel.create(body);
     return category;
   }
 }

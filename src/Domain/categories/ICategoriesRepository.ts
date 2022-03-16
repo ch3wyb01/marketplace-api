@@ -1,10 +1,8 @@
-import { Category } from 'src/Persistence/categories/category.schema';
+import { Category } from '../../Persistence/categories/category.schema';
+import { ICategory } from './ICategory';
 
 export interface ICategoriesRepository {
   fetchAllCategories(): Promise<Category[]>;
 
-  insertCategory(body: {
-    category_name: string;
-    category_description: string;
-  }): Promise<Category>;
+  insertCategory(body: Partial<ICategory>): Promise<Category>;
 }
