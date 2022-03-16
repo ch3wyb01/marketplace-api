@@ -322,5 +322,36 @@ describe('/categories', () => {
         }),
       );
     });
+    test('400: returns validation error message when passed invalid property type', async () => {
+      const newCategory = {
+        category_name: 64,
+        category_description: 'Why not make your own grass greener?',
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .post('/categories')
+        .send(newCategory)
+        .expect(400);
+      expect(errors).toEqual({
+        category_name: 'category_name must be a string',
+      });
+    });
+    test('400: returns validation error message when passed multiple invalid property types', async () => {
+      const newCategory = {
+        category_name: 64,
+        category_description: { desc: 'here is a description' },
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .post('/categories')
+        .send(newCategory)
+        .expect(400);
+      expect(errors).toEqual({
+        category_name: 'category_name must be a string',
+        category_description: 'category_description must be a string'
+      });
+    });
   });
 });
