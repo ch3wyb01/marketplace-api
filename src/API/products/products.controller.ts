@@ -13,6 +13,7 @@ import { ProductsService } from '../../Domain/products/products.service';
 import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { NewProductDTO } from './newProduct.dto';
 import { ProductDTO } from './product.dto';
+import { UpdateProductDTO } from './updateProduct.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -57,13 +58,7 @@ export class ProductsController {
   async patchProductById(
     @Param('id') prodId: string,
     @Body()
-    completeBody: {
-      title: string;
-      description: string;
-      img_url: string;
-      price: number;
-      categories: string[];
-    },
+    completeBody: UpdateProductDTO
   ): Promise<{ product: ProductDTO }> {
     const { title, description, img_url, price, categories } = completeBody;
 

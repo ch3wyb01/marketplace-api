@@ -146,7 +146,7 @@ describe('/products', () => {
     test('200: returns updated product when passed multiple new fields', async () => {
       const updateFields = {
         description: 'A small fluffy whale plush toy',
-        categories: '6220f9ab230ed15af3d3dffa',
+        categories: ['6220f9ab230ed15af3d3dffa'],
       };
       const {
         body: { product },
