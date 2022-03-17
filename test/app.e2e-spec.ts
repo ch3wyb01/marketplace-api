@@ -392,4 +392,44 @@ describe('/categories', () => {
       });
     });
   });
+
+  describe('PATCH /categories/:id', () => {
+    test('200: returns updated category when passed one new field', async () => {
+      const updatedFields = {
+        category_name: 'Knowledge',
+      };
+      const {
+        body: { category },
+      } = await request(app.getHttpServer())
+        .patch('/categories/6220f9ab230ed15af3d3dffa')
+        .send(updatedFields)
+        .expect(200);
+      expect(category).toEqual(
+        expect.objectContaining({
+          id: '6220f9ab230ed15af3d3dffa',
+          category_name: 'Knowledge',
+          category_description: 'Learning is fun-damental!',
+        }),
+      );
+    });
+    test('200: returns updated category when passed multiple new fields', async () => {
+      const updatedFields = {
+        category_name: 'Knowledge',
+        category_description: 'Knowledge is power!',
+      };
+      const {
+        body: { category },
+      } = await request(app.getHttpServer())
+        .patch('/categories/6220f9ab230ed15af3d3dffa')
+        .send(updatedFields)
+        .expect(200);
+      expect(category).toEqual(
+        expect.objectContaining({
+          id: '6220f9ab230ed15af3d3dffa',
+          category_name: 'Knowledge',
+          category_description: 'Knowledge is power!',
+        }),
+      );
+    });
+  });
 });
