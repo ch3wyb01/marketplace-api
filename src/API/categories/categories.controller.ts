@@ -11,8 +11,10 @@ export class CategoriesController {
 
   @Get()
   async getAllCategories(): Promise<{ categories: CategoryDTO[] }> {
-    const dbCategories: ICategory[] = await this.categoriesService.fetchAllCategories();
-    const categories = dbCategories.map(CategoryMapper);
+    const dbCategories: ICategory[] =
+      await this.categoriesService.fetchAllCategories();
+
+    const categories: CategoryDTO[] = dbCategories.map(CategoryMapper);
     return { categories };
   }
 
@@ -24,7 +26,8 @@ export class CategoriesController {
     const dbCategory: ICategory = await this.categoriesService.insertCategory(
       completeBody,
     );
-    const category = CategoryMapper(dbCategory);
+
+    const category: CategoryDTO = CategoryMapper(dbCategory);
     return { category };
   }
 
@@ -32,9 +35,10 @@ export class CategoriesController {
   async getCategoryById(
     @Param('id') catId: string,
   ): Promise<{ category: CategoryDTO }> {
-    const dbCategory: ICategory = await this.categoriesService.fetchCategoryById(catId);
+    const dbCategory: ICategory =
+      await this.categoriesService.fetchCategoryById(catId);
 
-    const category = CategoryMapper(dbCategory);
+    const category: CategoryDTO = CategoryMapper(dbCategory);
     return { category };
   }
 }
