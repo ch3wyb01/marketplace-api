@@ -85,11 +85,12 @@ describe('/products', () => {
         categories: ['6220f9ab230ed15af3d3dffc'],
       };
       const {
-        body: { errors },
+        body: { type, errors },
       } = await request(app.getHttpServer())
         .post('/products')
         .send(newProduct)
         .expect(400);
+      expect(type).toBe('Validation');
       expect(errors).toEqual({
         price: 'price must be a number conforming to the specified constraints',
       });
@@ -134,16 +135,18 @@ describe('/products', () => {
     });
     test('404: returns not found message when passed valid but non-existent product ID', async () => {
       const {
-        body: { errors },
+        body: { type, errors },
       } = await request(app.getHttpServer())
         .get('/products/621f812430f463d5067c39f2')
         .expect(404);
+      expect(type).toBe('HTTP');
       expect(errors).toBe('Product not found');
     });
-    test('400: returns error message when passed invalid product ID', async () => {
+    test('400: returns validation error message when passed invalid product ID', async () => {
       const {
-        body: { errors },
+        body: { type, errors },
       } = await request(app.getHttpServer()).get('/products/268').expect(400);
+      expect(type).toBe('Validation');
       expect(errors).toEqual({
         product: 'Invalid Product ID',
       });
@@ -219,7 +222,7 @@ describe('/products', () => {
         .expect(404);
       expect(errors).toBe('Product not found');
     });
-    test('400: returns error message when passed invalid product ID', async () => {
+    test('400: returns validation error message when passed invalid product ID', async () => {
       const updateFields = {
         description: 'A small fluffy whale plush toy',
       };
@@ -271,7 +274,7 @@ describe('/products', () => {
         .expect(404);
       expect(errors).toBe("Product not found and couldn't be deleted");
     });
-    test('400: returns error message when passed invalid product ID', async () => {
+    test('400: returns validation error message when passed invalid product ID', async () => {
       const {
         body: { errors },
       } = await request(app.getHttpServer())
@@ -350,7 +353,7 @@ describe('/categories', () => {
         .expect(400);
       expect(errors).toEqual({
         category_name: 'category_name must be a string',
-        category_description: 'category_description must be a string'
+        category_description: 'category_description must be a string',
       });
     });
   });
