@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ICategory } from 'src/Domain/categories/ICategory';
+import { UpdateMapper } from '../../Utilities/mappers/update.mapper';
 import { CategoriesService } from '../../Domain/categories/categories.service';
 import { CategoryMapper } from '../../Utilities/mappers/category.mapper';
 import { CategoryDTO } from './category.dto';
 import { NewCategoryDTO } from './newCategory.dto';
+import { UpdateCategoryDTO } from './updateCategory.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -39,6 +41,22 @@ export class CategoriesController {
       await this.categoriesService.fetchCategoryById(catId);
 
     const category: CategoryDTO = CategoryMapper(dbCategory);
+    return { category };
+  }
+
+  @Patch()
+  async patchCategoryById(
+    @Param('id') catId: string,
+    @Body()
+    completeBody: UpdateCategoryDTO,
+  ): Promise<{ category: CategoryDTO }> {
+    const updatedFields: Partial<ICategory> = UpdateMapper(completeBody);
+
+    const dbCategory: ICategory =
+      await this.categoriesService.updateProductById(catId, updatedFields);
+
+    const category: CategoryDTO = CategoryMapper(dbCategory);
+
     return { category };
   }
 }

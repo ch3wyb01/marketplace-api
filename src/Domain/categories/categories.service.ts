@@ -12,7 +12,7 @@ export class CategoriesService {
     return categories;
   }
 
-  async insertCategory(body: Partial<ICategory>) {
+  async insertCategory(body: ICategory) {
     const category: ICategory = await this.categoriesRepository.insertCategory(
       body,
     );
@@ -22,6 +22,16 @@ export class CategoriesService {
   async fetchCategoryById(catId: string): Promise<ICategory> {
     const category: ICategory =
       await this.categoriesRepository.fetchCategoryById(catId);
+    return category;
+  }
+
+  async updateProductById(
+    catId: string,
+    updatedFields: Partial<ICategory>,
+  ): Promise<ICategory> {
+    const category: ICategory =
+      await this.categoriesRepository.updateCategoryById(catId, updatedFields);
+
     return category;
   }
 }

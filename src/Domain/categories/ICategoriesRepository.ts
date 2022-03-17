@@ -7,4 +7,9 @@ export interface ICategoriesRepository {
   insertCategory(body: Partial<ICategory>): Promise<Category>;
 
   fetchCategoryById(catId: string): Promise<ICategory>;
+
+  updateCategoryById(
+    catId: string,
+    updatedFields: Partial<ICategory>,
+  ): Promise<ICategory>;
 }

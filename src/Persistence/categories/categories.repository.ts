@@ -17,7 +17,7 @@ export class CategoriesRepository implements ICategoriesRepository {
     return categories;
   }
 
-  async insertCategory(body: Partial<ICategory>): Promise<Category> {
+  async insertCategory(body: ICategory): Promise<Category> {
     const category: Category = await this.categoryModel.create(body);
 
     return category;
@@ -25,6 +25,20 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async fetchCategoryById(catId: string): Promise<Category> {
     const category: Category = await this.categoryModel.findById(catId).lean();
+
+    if (category) return category;
+    else throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+  }
+
+  async updateCategoryById(
+    catId: string,
+    updatedFields: Partial<ICategory>,
+  ): Promise<ICategory> {
+    const category: Category = await this.categoryModel
+      .findByIdAndUpdate({ _id: catId }, updatedFields, {
+        returnDocument: 'after',
+      })
+      .lean();
 
     if (category) return category;
     else throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
