@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { IProduct } from 'src/Domain/products/IProduct';
-import { UpdateProductMapper } from '../../Utilities/mappers/updateProduct.mapper';
+import { UpdateMapper } from '../../Utilities/mappers/update.mapper';
 import { ProductsService } from '../../Domain/products/products.service';
 import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { NewProductDTO } from './newProduct.dto';
@@ -61,7 +61,7 @@ export class ProductsController {
     @Body()
     completeBody: UpdateProductDTO,
   ): Promise<{ product: ProductDTO }> {
-    const updatedFields: Partial<IProduct> = UpdateProductMapper(completeBody);
+    const updatedFields: Partial<IProduct> = UpdateMapper(completeBody);
 
     const dbProduct: IProduct = await this.productsService.updateProductById(
       prodId,
