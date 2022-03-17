@@ -13,12 +13,17 @@ export class CategoriesRepository implements ICategoriesRepository {
   ) {}
 
   async fetchAllCategories(): Promise<Category[]> {
-    const categories = await this.categoryModel.find();
+    const categories: Category[] = await this.categoryModel.find();
     return categories;
   }
 
   async insertCategory(body: Partial<ICategory>): Promise<Category> {
-    const category = await this.categoryModel.create(body);
+    const category: Category = await this.categoryModel.create(body);
+    return category;
+  }
+
+  async fetchCategoryById(catId: string): Promise<Category> {
+    const category: Category = await this.categoryModel.findById(catId).lean();
     return category;
   }
 }

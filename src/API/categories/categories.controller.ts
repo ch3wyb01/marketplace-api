@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ICategory } from 'src/Domain/categories/ICategory';
 import { CategoriesService } from '../../Domain/categories/categories.service';
 import { CategoryMapper } from '../../Utilities/mappers/category.mapper';
 import { CategoryDTO } from './category.dto';
@@ -10,7 +11,7 @@ export class CategoriesController {
 
   @Get()
   async getAllCategories(): Promise<{ categories: CategoryDTO[] }> {
-    const dbCategories = await this.categoriesService.fetchAllCategories();
+    const dbCategories: ICategory[] = await this.categoriesService.fetchAllCategories();
     const categories = dbCategories.map(CategoryMapper);
     return { categories };
   }
@@ -20,9 +21,19 @@ export class CategoriesController {
     @Body()
     completeBody: NewCategoryDTO,
   ): Promise<{ category: CategoryDTO }> {
-    const dbCategory = await this.categoriesService.insertCategory(
+    const dbCategory: ICategory = await this.categoriesService.insertCategory(
       completeBody,
     );
+    const category = CategoryMapper(dbCategory);
+    return { category };
+  }
+
+  @Get(':id')
+  async getCategoryById(
+    @Param('id') catId: string,
+  ): Promise<{ category: CategoryDTO }> {
+    const dbCategory: ICategory = await this.categoriesService.fetchCategoryById(catId);
+
     const category = CategoryMapper(dbCategory);
     return { category };
   }
