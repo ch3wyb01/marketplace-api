@@ -357,4 +357,21 @@ describe('/categories', () => {
       });
     });
   });
+
+  describe('GET /categories/:id', () => {
+    test('200: returns category of given ID', async () => {
+      const {
+        body: { category },
+      } = await request(app.getHttpServer())
+        .get('/categories/6220f9ab230ed15af3d3dffa')
+        .expect(200);
+      expect(category).toEqual(
+        expect.objectContaining({
+          id: '6220f9ab230ed15af3d3dffa',
+          category_name: 'Education',
+          category_description: 'Learning is fun-damental!',
+        }),
+      );
+    });
+  });
 });
