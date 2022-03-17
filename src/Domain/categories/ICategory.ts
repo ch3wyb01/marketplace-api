@@ -1,5 +1,5 @@
 export interface ICategory {
-  id?: string | null;
+  _id?: string | null;
   category_name: string;
   category_description: string;
 }
