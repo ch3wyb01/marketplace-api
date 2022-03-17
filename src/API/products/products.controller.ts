@@ -29,7 +29,7 @@ export class ProductsController {
       completeBody,
     );
 
-    const product = ProductMapper(dbProduct);
+    const product: ProductDTO = ProductMapper(dbProduct);
     return { product };
   }
 
@@ -38,7 +38,7 @@ export class ProductsController {
     const dbProducts: IProduct[] =
       await this.productsService.fetchAllProducts();
 
-    const products = dbProducts.map(ProductMapper);
+    const products: ProductDTO[] = dbProducts.map(ProductMapper);
     return { products };
   }
 
@@ -63,12 +63,12 @@ export class ProductsController {
   ): Promise<{ product: ProductDTO }> {
     const updatedFields: Partial<IProduct> = UpdateProductMapper(completeBody);
 
-    const dbProduct = await this.productsService.updateProductById(
+    const dbProduct: IProduct = await this.productsService.updateProductById(
       prodId,
       updatedFields,
     );
 
-    const product = ProductMapper(dbProduct);
+    const product: ProductDTO = ProductMapper(dbProduct);
 
     return { product };
   }
