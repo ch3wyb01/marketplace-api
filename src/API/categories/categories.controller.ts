@@ -44,7 +44,7 @@ export class CategoriesController {
     return { category };
   }
 
-  @Patch()
+  @Patch(':id')
   async patchCategoryById(
     @Param('id') catId: string,
     @Body()
