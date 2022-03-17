@@ -373,5 +373,13 @@ describe('/categories', () => {
         }),
       );
     });
+    test('404: returns not found message when passed valid but non-existent category ID', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .get('/categories/621f812430f463d5067c39f2')
+        .expect(404);
+      expect(errors).toBe('Category not found');
+    });
   });
 });
