@@ -7,11 +7,15 @@ import {
 } from '@nestjs/common';
 import { ClassValidatorException } from './validation/ClassValidatorException';
 import { Response } from 'express';
-import { Error } from 'mongoose';
-import MongoError = Error.CastError;
+import { Error as MongoError } from 'mongoose';
 import { Exception } from './Exception';
 
-@Catch(ClassValidatorException, MongoError, HttpException)
+@Catch(
+  ClassValidatorException,
+  MongoError.CastError,
+  MongoError.ValidationError,
+  HttpException,
+)
 export class CustomExceptionHandler implements ExceptionFilter {
   public catch(exception: unknown, host: ArgumentsHost) {
     const context = host.switchToHttp();
@@ -20,7 +24,10 @@ export class CustomExceptionHandler implements ExceptionFilter {
     let formattedException: Exception;
     if (exception instanceof ClassValidatorException) {
       formattedException = this.handleClassValidatorException(exception);
-    } else if (exception instanceof MongoError) {
+    } else if (
+      exception instanceof MongoError.CastError ||
+      exception instanceof MongoError.ValidationError
+    ) {
       formattedException = this.handleMongoException(exception);
     } else if (exception instanceof HttpException) {
       formattedException = this.handleHttpException(exception);
@@ -43,8 +50,23 @@ export class CustomExceptionHandler implements ExceptionFilter {
     return new Exception(statusCode, 'Validation', errors);
   }
 
-  public handleMongoException(exception: MongoError) {
+  public handleMongoException(
+    exception: MongoError.CastError | MongoError.ValidationError,
+  ): Exception {
     const statusCode: HttpStatus = HttpStatus.BAD_REQUEST;
+
+    let errors: { product?: string; category?: string } = {};
+
+    if (exception instanceof MongoError.CastError) {
+      errors = this.handleMongoCastException(exception);
+    } else if (exception instanceof MongoError.ValidationError) {
+      errors = this.handleMongoValidationException(exception);
+    }
+
+    return new Exception(statusCode, 'Validation', errors);
+  }
+
+  public handleMongoCastException(exception: MongoError.CastError) {
     const errors: { product?: string; category?: string } = {};
 
     if (exception.message.includes('Product')) {
@@ -53,7 +75,18 @@ export class CustomExceptionHandler implements ExceptionFilter {
     if (exception.message.includes('Category')) {
       errors.category = 'Invalid Category ID';
     }
-    return new Exception(statusCode, 'Validation', errors);
+
+    return errors;
+  }
+
+  public handleMongoValidationException(exception: MongoError.ValidationError) {
+    const errors: { product?: string; category?: string } = {};
+
+    if (Object.keys(exception.errors)[0].includes('categories')) {
+      errors.category = 'Invalid Category ID';
+    }
+
+    return errors;
   }
 
   public handleHttpException(exception: HttpException) {
