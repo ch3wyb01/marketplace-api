@@ -114,6 +114,24 @@ describe('/products', () => {
         price: 'price must be a number conforming to the specified constraints',
       });
     });
+    test('400: returns validation error message when passed invalid category ID', async () => {
+      const newProduct = {
+        title: 'A new product',
+        description: 'This is shiny and brand new',
+        img_url: 'https://img_url.com',
+        price: 100,
+        categories: ['invalid'],
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .post('/products')
+        .send(newProduct)
+        .expect(400);
+      expect(errors).toEqual({
+        category: 'Invalid Category ID',
+      });
+    });
   });
 
   describe('GET /products/:id', () => {
@@ -456,8 +474,8 @@ describe('/categories', () => {
         .send(updatedFields)
         .expect(400);
       expect(errors).toEqual({
-        category: 'Invalid Category ID'
-      })
+        category: 'Invalid Category ID',
+      });
     });
     test('400: returns validation error message when passed invalid property type', async () => {
       const updatedFields = {
