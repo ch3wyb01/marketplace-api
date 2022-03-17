@@ -58,7 +58,7 @@ describe('/products', () => {
         description: 'This is shiny and brand new',
         img_url: 'https://img_url.com',
         price: 100,
-        categories: ['6220f9ab230ed15af3d3dffc'],
+        categories: ['6220f9ab230ed15af3d3dffc', '6220f9ab230ed15af3d3dffb'],
       };
       const {
         body: { product },
@@ -73,7 +73,7 @@ describe('/products', () => {
           description: 'This is shiny and brand new',
           img_url: 'https://img_url.com',
           price: 100,
-          categories: ['Household'],
+          categories: ['Household', 'Toys'],
         }),
       );
     });
@@ -114,13 +114,13 @@ describe('/products', () => {
         price: 'price must be a number conforming to the specified constraints',
       });
     });
-    test('400: returns validation error message when passed invalid category ID', async () => {
+    test('400: returns validation error message when passed one valid and one invalid category ID', async () => {
       const newProduct = {
         title: 'A new product',
         description: 'This is shiny and brand new',
         img_url: 'https://img_url.com',
         price: 100,
-        categories: ['invalid'],
+        categories: ['6220f9ab230ed15af3d3dffc', 'invalid'],
       };
       const {
         body: { errors },
@@ -129,7 +129,7 @@ describe('/products', () => {
         .send(newProduct)
         .expect(400);
       expect(errors).toEqual({
-        category: 'Invalid Category ID',
+        categories: 'Invalid Category ID at index 1',
       });
     });
   });
