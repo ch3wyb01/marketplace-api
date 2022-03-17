@@ -431,5 +431,64 @@ describe('/categories', () => {
         }),
       );
     });
+    test('404: returns not found message when passed valid but non-existent category ID', async () => {
+      const updatedFields = {
+        category_name: 'Knowledge',
+        category_description: 'Knowledge is power!',
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/categories/6233246d2c4bc091a3b1a0c6')
+        .send(updatedFields)
+        .expect(404);
+      expect(errors).toBe('Category not found');
+    });
+    test('400: returns validation error message when passed invalid category ID', async () => {
+      const updatedFields = {
+        category_name: 'Knowledge',
+        category_description: 'Knowledge is power!',
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/categories/989invalid')
+        .send(updatedFields)
+        .expect(400);
+      expect(errors).toEqual({
+        category: 'Invalid Category ID'
+      })
+    });
+    test('400: returns validation error message when passed invalid property type', async () => {
+      const updatedFields = {
+        category_name: 785,
+        category_description: 'Knowledge is power!',
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/categories/6220f9ab230ed15af3d3dffa')
+        .send(updatedFields)
+        .expect(400);
+      expect(errors).toEqual({
+        category_name: 'category_name must be a string',
+      });
+    });
+    test('400: returns validation error message when passed multiple invalid property type', async () => {
+      const updatedFields = {
+        category_name: 785,
+        category_description: ['learning', 'fun'],
+      };
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .patch('/categories/6220f9ab230ed15af3d3dffa')
+        .send(updatedFields)
+        .expect(400);
+      expect(errors).toEqual({
+        category_name: 'category_name must be a string',
+        category_description: 'category_description must be a string',
+      });
+    });
   });
 });
