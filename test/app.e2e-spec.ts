@@ -381,5 +381,15 @@ describe('/categories', () => {
         .expect(404);
       expect(errors).toBe('Category not found');
     });
+    test('400: returns validation error message when passed invalid category ID', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .get('/categories/invalid')
+        .expect(400);
+      expect(errors).toEqual({
+        category: 'Invalid Category ID',
+      });
+    });
   });
 });

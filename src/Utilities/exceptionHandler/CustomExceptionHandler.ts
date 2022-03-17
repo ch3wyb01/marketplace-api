@@ -23,7 +23,7 @@ export class CustomExceptionHandler implements ExceptionFilter {
     } else if (exception instanceof MongoError) {
       formattedException = this.handleMongoException(exception);
     } else if (exception instanceof HttpException) {
-      formattedException = this.handleHttpException(exception)
+      formattedException = this.handleHttpException(exception);
     }
 
     const { statusCode, type, errors } = formattedException;
@@ -45,10 +45,13 @@ export class CustomExceptionHandler implements ExceptionFilter {
 
   public handleMongoException(exception: MongoError) {
     const statusCode: HttpStatus = HttpStatus.BAD_REQUEST;
-    const errors: { product?: string } = {};
+    const errors: { product?: string; category?: string } = {};
 
     if (exception.message.includes('Product')) {
       errors.product = 'Invalid Product ID';
+    }
+    if (exception.message.includes('Category')) {
+      errors.category = 'Invalid Category ID';
     }
     return new Exception(statusCode, 'Validation', errors);
   }
