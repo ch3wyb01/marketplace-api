@@ -8,6 +8,6 @@ export class ApiController {
   @Get()
   getEndpoints() {
     const endpoints = endpointsDesc;
-    return endpoints;
+    return { endpoints };
   }
 }
