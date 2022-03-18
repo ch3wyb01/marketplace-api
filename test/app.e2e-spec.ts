@@ -7,6 +7,7 @@ import { SeedDatabaseService } from '../src/Utilities/seeds/seed.service';
 import { ProductDTO } from '../src/API/products/product.dto';
 import { CategoryDTO } from '../src/API/categories/category.dto';
 import { validationPipeOptions } from '../src/Utilities/exceptionHandler/validation/validationPipeOptions';
+import endpointsDesc from '../src/API/endpoints.json';
 
 let app: INestApplication;
 let seedService: SeedDatabaseService;
@@ -27,6 +28,17 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await seedService.CloseConnection();
+});
+
+describe('/', () => {
+  describe('GET /', () => {
+    test('200: returns JSON of endpoints description', async () => {
+      const {
+        body: { endpoints },
+      } = await request(app.getHttpServer()).get('/').expect(200);
+      expect(endpoints).toEqual(endpointsDesc);
+    });
+  });
 });
 
 describe('/products', () => {
