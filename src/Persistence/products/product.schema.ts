@@ -20,7 +20,7 @@ class _productSchema implements IProduct {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'Category' })
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Category' }] })
   categories: Category[];
 }
 
