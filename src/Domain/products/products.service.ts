@@ -16,9 +16,9 @@ export class ProductsService {
     return product;
   }
 
-  async fetchAllProducts(): Promise<IProduct[]> {
+  async fetchAllProducts(catId?: string): Promise<IProduct[]> {
     const products: IProduct[] =
-      await this.productsRepository.fetchAllProducts();
+      await this.productsRepository.fetchAllProducts(catId);
 
     products.forEach((product) => {
       product.categories = CategoryNameMapper(product.categories);

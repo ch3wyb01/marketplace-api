@@ -4,7 +4,7 @@ import { IProduct } from './IProduct';
 export interface IProductsRepository {
   insertProduct(body: IProduct): Promise<Product>;
 
-  fetchAllProducts(): Promise<Product[]>;
+  fetchAllProducts(catId?: string): Promise<Product[]>;
 
   fetchProductById(prodId: string): Promise<Product>;
 

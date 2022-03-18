@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { IProduct } from 'src/Domain/products/IProduct';
 import { UpdateMapper } from '../../Utilities/mappers/update.mapper';
@@ -34,9 +35,12 @@ export class ProductsController {
   }
 
   @Get()
-  async getAllProducts(): Promise<{ products: ProductDTO[] }> {
-    const dbProducts: IProduct[] =
-      await this.productsService.fetchAllProducts();
+  async getAllProducts(
+    @Query('category') catId?: string,
+  ): Promise<{ products: ProductDTO[] }> {
+    const dbProducts: IProduct[] = await this.productsService.fetchAllProducts(
+      catId,
+    );
 
     const products: ProductDTO[] = dbProducts.map(ProductMapper);
     return { products };
