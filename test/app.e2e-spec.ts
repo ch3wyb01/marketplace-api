@@ -81,6 +81,18 @@ describe('/products', () => {
         );
       });
     });
+    test('200: returns array of products within the correct price range when passed both price queries', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?priceMin=5&priceMax=20')
+        .expect(200);
+      expect(products).toHaveLength(2);
+      products.forEach((product: ProductDTO) => {
+        expect(product.price).toBeGreaterThanOrEqual(5);
+        expect(product.price).toBeLessThanOrEqual(20);
+      });
+    });
   });
 
   describe('POST /products', () => {
