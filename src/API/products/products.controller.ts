@@ -16,6 +16,8 @@ import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { NewProductDTO } from './newProduct.dto';
 import { ProductDTO } from './product.dto';
 import { UpdateProductDTO } from './updateProduct.dto';
+import { ProductQuery } from './ProductQuery';
+import { ProductQueryMapper } from '../../Utilities/mappers/productsQuery.mapper';
 
 @Controller('products')
 export class ProductsController {
@@ -31,18 +33,22 @@ export class ProductsController {
     );
 
     const product: ProductDTO = ProductMapper(dbProduct);
+
     return { product };
   }
 
   @Get()
   async getAllProducts(
-    @Query('category') catId?: string,
+    @Query() query: ProductQuery,
   ): Promise<{ products: ProductDTO[] }> {
+    const queries: Partial<IProduct> = ProductQueryMapper(query);
+
     const dbProducts: IProduct[] = await this.productsService.fetchAllProducts(
-      catId,
+      queries,
     );
 
     const products: ProductDTO[] = dbProducts.map(ProductMapper);
+
     return { products };
   }
 
@@ -55,6 +61,7 @@ export class ProductsController {
     );
 
     const product: ProductDTO = ProductMapper(dbProduct);
+
     return { product };
   }
 
