@@ -18,6 +18,7 @@ import { ProductDTO } from './product.dto';
 import { UpdateProductDTO } from './updateProduct.dto';
 import { ProductQuery } from './ProductQuery';
 import { ProductQueryMapper } from '../../Utilities/mappers/productsQuery.mapper';
+import { DBProductQuery } from '../../Utilities/DBProductQuery';
 
 @Controller('products')
 export class ProductsController {
@@ -41,7 +42,7 @@ export class ProductsController {
   async getAllProducts(
     @Query() query: ProductQuery,
   ): Promise<{ products: ProductDTO[] }> {
-    const queries: Partial<IProduct> = ProductQueryMapper(query);
+    const queries: DBProductQuery = query ? ProductQueryMapper(query) : {};
 
     const dbProducts: IProduct[] = await this.productsService.fetchAllProducts(
       queries,

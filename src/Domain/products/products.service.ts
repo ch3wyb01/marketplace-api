@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CategoryNameMapper } from '../../Utilities/mappers/categoryName.mapper';
 import { ProductsRepository } from '../../Persistence/products/products.repository';
 import { IProduct } from './IProduct';
+import { DBProductQuery } from '../../Utilities/DBProductQuery';
 
 @Injectable()
 export class ProductsService {
@@ -16,7 +17,7 @@ export class ProductsService {
     return product;
   }
 
-  async fetchAllProducts(query: Partial<IProduct>): Promise<IProduct[]> {
+  async fetchAllProducts(query: DBProductQuery): Promise<IProduct[]> {
     const products: IProduct[] = await this.productsRepository.fetchAllProducts(
       query,
     );

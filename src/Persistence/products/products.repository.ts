@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { DBProductQuery } from '../../Utilities/DBProductQuery';
 import { IProduct } from '../../Domain/products/IProduct';
 import { IProductsRepository } from '../../Domain/products/IProductsRepository';
 import { Product } from './product.schema';
@@ -23,7 +24,7 @@ export class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  async fetchAllProducts(query: Partial<IProduct>): Promise<Product[]> {
+  async fetchAllProducts(query: DBProductQuery): Promise<Product[]> {
     const products = (await this.productModel
       .find(query)
       .populate({ path: 'categories' })
