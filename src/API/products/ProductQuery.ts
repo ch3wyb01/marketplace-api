@@ -1,15 +1,9 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+export type ProductQuery = {
+  title?: string;
 
-export class ProductQuery {
-  @IsOptional()
-  @IsString()
-  public title?: string;
+  priceMin?: number;
 
-  @IsOptional()
-  @IsNumber()
-  public price?: number;
+  priceMax?: number;
 
-  @IsOptional()
-  @IsString()
-  public category?: string;
-}
+  category?: string;
+};
