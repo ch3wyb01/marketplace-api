@@ -43,4 +43,14 @@ export class CategoriesRepository implements ICategoriesRepository {
     if (category) return category;
     else throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
   }
+
+  async removeCategoryById(catId: string): Promise<void> {
+    const category = await this.categoryModel.findByIdAndDelete(catId);
+
+    if (!category)
+      throw new HttpException(
+        "Category not found and couldn't be deleted",
+        HttpStatus.NOT_FOUND,
+      );
+  }
 }

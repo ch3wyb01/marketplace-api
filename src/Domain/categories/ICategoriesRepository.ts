@@ -12,4 +12,6 @@ export interface ICategoriesRepository {
     catId: string,
     updatedFields: Partial<ICategory>,
   ): Promise<ICategory>;
+
+  removeCategoryById(catId: string): Promise<void>;
 }

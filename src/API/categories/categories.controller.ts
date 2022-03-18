@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  HttpCode,
+} from '@nestjs/common';
 import { ICategory } from 'src/Domain/categories/ICategory';
 import { UpdateMapper } from '../../Utilities/mappers/update.mapper';
 import { CategoriesService } from '../../Domain/categories/categories.service';
@@ -58,5 +67,11 @@ export class CategoriesController {
     const category: CategoryDTO = CategoryMapper(dbCategory);
 
     return { category };
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async deleteCategoryById(@Param('id') catId: string) {
+    await this.categoriesService.removeCategoryById(catId);
   }
 }

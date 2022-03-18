@@ -34,4 +34,8 @@ export class CategoriesService {
 
     return category;
   }
+
+  async removeCategoryById(catId: string) {
+    await this.categoriesRepository.removeCategoryById(catId);
+  }
 }
