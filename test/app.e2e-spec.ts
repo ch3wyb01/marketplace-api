@@ -281,7 +281,7 @@ describe('/products', () => {
   });
 
   describe('DELETE /products/:id', () => {
-    test('204: removes product from database', async () => {
+    test('204: removes product of given ID from database', async () => {
       await request(app.getHttpServer())
         .delete('/products/621f912430f443d5067c39f2')
         .expect(204);
@@ -518,6 +518,44 @@ describe('/categories', () => {
       expect(errors).toEqual({
         category_name: 'category_name must be a string',
         category_description: 'category_description must be a string',
+      });
+    });
+  });
+
+  describe('DELETE /categories/:id', () => {
+    test('204: removes category of given ID from database', async () => {
+      await request(app.getHttpServer())
+        .delete('/categories/6220f9ab230ed15af3d3dffb')
+        .expect(204);
+      const {
+        body: { categories },
+      } = await request(app.getHttpServer()).get('/categories').expect(200);
+      categories.forEach((category: CategoryDTO) => {
+        expect(category).toEqual(
+          expect.not.objectContaining({
+            id: '6220f9ab230ed15af3d3dffb',
+            category_name: 'Toys',
+            category_description: 'Fun for all ages',
+          }),
+        );
+      });
+    });
+    test('404: returns not found message when passed valid but non-existent category ID', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .delete('/categories/621f812430f463d5067c39f2')
+        .expect(404);
+      expect(errors).toBe("Category not found and couldn't be deleted");
+    });
+    test('400: returns validation error message when passed invalid category ID', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .delete('/categories/notanid465')
+        .expect(400);
+      expect(errors).toEqual({
+        category: 'Invalid Category ID',
       });
     });
   });
