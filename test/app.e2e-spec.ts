@@ -61,6 +61,26 @@ describe('/products', () => {
         );
       });
     });
+    test('200: returns array of products with the given category when passed a category ID query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?category=6220f9ab230ed15af3d3dffb')
+        .expect(200);
+      expect(products).toHaveLength(2);
+      products.forEach((product: ProductDTO) => {
+        expect(product).toEqual(
+          expect.objectContaining({
+            id: expect.any(String),
+            title: expect.any(String),
+            description: expect.any(String),
+            img_url: expect.any(String),
+            price: expect.any(Number),
+            categories: expect.arrayContaining(['Toys']),
+          }),
+        );
+      });
+    });
   });
 
   describe('POST /products', () => {
