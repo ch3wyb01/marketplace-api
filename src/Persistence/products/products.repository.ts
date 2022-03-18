@@ -23,11 +23,9 @@ export class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  async fetchAllProducts(catId?: string): Promise<Product[]> {
-    const findQuery = catId ? { categories: catId } : {};
-
+  async fetchAllProducts(query: Partial<IProduct>): Promise<Product[]> {
     const products = (await this.productModel
-      .find(findQuery)
+      .find(query)
       .populate({ path: 'categories' })
       .lean()) as Product[];
 

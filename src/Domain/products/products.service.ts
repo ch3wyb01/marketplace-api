@@ -16,13 +16,15 @@ export class ProductsService {
     return product;
   }
 
-  async fetchAllProducts(catId?: string): Promise<IProduct[]> {
-    const products: IProduct[] =
-      await this.productsRepository.fetchAllProducts(catId);
+  async fetchAllProducts(query: Partial<IProduct>): Promise<IProduct[]> {
+    const products: IProduct[] = await this.productsRepository.fetchAllProducts(
+      query,
+    );
 
     products.forEach((product) => {
       product.categories = CategoryNameMapper(product.categories);
     });
+    
     return products;
   }
 
