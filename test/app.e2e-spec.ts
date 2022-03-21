@@ -93,6 +93,32 @@ describe('/products', () => {
         expect(product.price).toBeLessThanOrEqual(20);
       });
     });
+    test('200: returns array of products with titles containing the title query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?title=wine%20glasses')
+        .expect(200);
+      expect(products).toHaveLength(1);
+      products.forEach((product: ProductDTO) => {
+        expect(product).toEqual(
+          expect.objectContaining({
+            title: 'Crystal Wine Glasses',
+          }),
+        );
+      });
+    });
+    test('200: returns array of products with titles containing the title query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?title=us')
+        .expect(200);
+      expect(products).toHaveLength(2);
+      products.forEach((product: ProductDTO) => {
+        expect(product.title).toEqual(expect.stringContaining('us'));
+      });
+    });
     test('404: returns not found message when passed valid but non-existent category ID query', async () => {
       const {
         body: { errors },
