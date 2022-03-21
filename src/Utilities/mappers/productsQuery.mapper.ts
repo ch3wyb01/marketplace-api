@@ -20,13 +20,17 @@ const titleMapper = (title: string): RegExp => {
   return titleQuery;
 };
 
+const categoryMapper = (name: string): string => {
+  return name[0].toUpperCase() + name.slice(1).toLowerCase();
+};
+
 export const ProductQueryMapper = (query: ProductQuery): DBProductQuery => {
   const { category, priceMin, priceMax, title } = query;
 
   const formattedQuery: DBProductQuery = {};
 
   if (category) {
-    formattedQuery.categories = category;
+    formattedQuery.categories = categoryMapper(category);
   }
 
   if (priceMin || priceMax) {
