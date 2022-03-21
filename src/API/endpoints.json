@@ -4,7 +4,7 @@
   },
   "GET /products": {
     "description": "serves an array of all products",
-    "queries": ["category", "priceMin", "priceMax"],
+    "queries": ["category", "priceMin", "priceMax", "title"],
     "exampleRequest" : "/products?priceMax=20",
     "exampleResponse": {
       "products": [
