@@ -4,7 +4,6 @@ import { IProduct } from './IProduct';
 import { DBProductQuery } from '../../Utilities/DBProductQuery';
 import { CategoriesRepository } from '../../Persistence/categories/categories.repository';
 import { ICategory } from '../categories/ICategory';
-import { CategoryIDMapper } from '../../Utilities/mappers/categoryId.mapper';
 
 @Injectable()
 export class ProductsService {
@@ -26,7 +25,7 @@ export class ProductsService {
     if (query.categories) {
       const dbCategory: ICategory =
         await this.categoriesRepository.fetchCategoryByName(query.categories);
-      query.categories = CategoryIDMapper(dbCategory);
+      query.categories = this.CategoryIDMapper(dbCategory);
     }
 
     const products: IProduct[] = await this.productsRepository.fetchAllProducts(
@@ -73,5 +72,9 @@ export class ProductsService {
   private CategoryNameMapper (categories: ICategory[]): string[] {
     const categoryNames = categories.map((category) => category.category_name);
     return categoryNames;
+  };
+
+  private CategoryIDMapper (category: ICategory) {
+    return category._id;
   };
 }
