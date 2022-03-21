@@ -9,7 +9,6 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ICategory } from 'src/Domain/categories/ICategory';
-import { UpdateMapper } from '../../Utilities/mappers/update.mapper';
 import { CategoriesService } from '../../Domain/categories/categories.service';
 import { CategoryMapper } from '../../Utilities/mappers/category.mapper';
 import { CategoryDTO } from './category.dto';
@@ -59,10 +58,8 @@ export class CategoriesController {
     @Body()
     completeBody: UpdateCategoryDTO,
   ): Promise<{ category: CategoryDTO }> {
-    const updatedFields: Partial<ICategory> = UpdateMapper(completeBody);
-
     const dbCategory: ICategory =
-      await this.categoriesService.updateProductById(catId, updatedFields);
+      await this.categoriesService.updateProductById(catId, completeBody);
 
     const category: CategoryDTO = CategoryMapper(dbCategory);
 
