@@ -25,7 +25,6 @@ export class ProductsService {
     if (query.categories)
       await this.categoriesRepository.fetchCategoryById(query.categories);
 
-    //await findCategoryByID
     const products: IProduct[] = await this.productsRepository.fetchAllProducts(
       query,
     );
