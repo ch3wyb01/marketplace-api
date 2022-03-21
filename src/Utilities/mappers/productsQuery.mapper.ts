@@ -14,17 +14,27 @@ const priceMapper = (priceMin: number, priceMax: number): object => {
   return priceQueries.price;
 };
 
+const titleMapper = (title: string): RegExp => {
+  const titleQuery = new RegExp(title, 'gi');
+
+  return titleQuery;
+};
+
 export const ProductQueryMapper = (query: ProductQuery): DBProductQuery => {
-  const { category, priceMin, priceMax } = query;
+  const { category, priceMin, priceMax, title } = query;
 
   const formattedQuery: DBProductQuery = {};
+
+  if (category) {
+    formattedQuery.categories = category;
+  }
 
   if (priceMin || priceMax) {
     formattedQuery.price = priceMapper(priceMin, priceMax);
   }
 
-  if (category) {
-    formattedQuery.categories = category;
+  if (title) {
+    formattedQuery.title = titleMapper(title);
   }
 
   return formattedQuery;
