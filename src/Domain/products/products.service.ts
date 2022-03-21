@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CategoryNameMapper } from '../../Utilities/mappers/categoryName.mapper';
 import { ProductsRepository } from '../../Persistence/products/products.repository';
 import { IProduct } from './IProduct';
 import { DBProductQuery } from '../../Utilities/DBProductQuery';
@@ -17,7 +16,7 @@ export class ProductsService {
   async insertProduct(body: IProduct): Promise<IProduct> {
     const product: IProduct = await this.productsRepository.insertProduct(body);
 
-    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    const categoryNames: string[] = this.CategoryNameMapper(product.categories);
     product.categories = categoryNames;
 
     return product;
@@ -35,7 +34,7 @@ export class ProductsService {
     );
 
     products.forEach((product) => {
-      product.categories = CategoryNameMapper(product.categories);
+      product.categories = this.CategoryNameMapper(product.categories);
     });
 
     return products;
@@ -46,7 +45,7 @@ export class ProductsService {
       prodId,
     );
 
-    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    const categoryNames: string[] = this.CategoryNameMapper(product.categories);
     product.categories = categoryNames;
 
     return product;
@@ -61,7 +60,7 @@ export class ProductsService {
       updatedFields,
     );
 
-    const categoryNames: string[] = CategoryNameMapper(product.categories);
+    const categoryNames: string[] = this.CategoryNameMapper(product.categories);
     product.categories = categoryNames;
 
     return product;
@@ -70,4 +69,9 @@ export class ProductsService {
   async removeProductById(prodId: string) {
     await this.productsRepository.removeProductById(prodId);
   }
+
+  private CategoryNameMapper (categories: ICategory[]): string[] {
+    const categoryNames = categories.map((category) => category.category_name);
+    return categoryNames;
+  };
 }
