@@ -61,11 +61,11 @@ describe('/products', () => {
         );
       });
     });
-    test('200: returns array of products with the given category when passed a category ID query', async () => {
+    test('200: returns array of products with the given category when passed a category name', async () => {
       const {
         body: { products },
       } = await request(app.getHttpServer())
-        .get('/products?category=6220f9ab230ed15af3d3dffb')
+        .get('/products?category=toys')
         .expect(200);
       expect(products).toHaveLength(2);
       products.forEach((product: ProductDTO) => {
@@ -119,23 +119,13 @@ describe('/products', () => {
         expect(product.title).toEqual(expect.stringContaining('us'));
       });
     });
-    test('404: returns not found message when passed valid but non-existent category ID query', async () => {
+    test('404: returns not found message when passed valid but non-existent category name query', async () => {
       const {
         body: { errors },
       } = await request(app.getHttpServer())
         .get('/products?category=621f812430f463d5067c39f2')
         .expect(404);
       expect(errors).toBe('Category not found');
-    });
-    test('400: returns validation error message when passed invalid category ID query', async () => {
-      const {
-        body: { errors },
-      } = await request(app.getHttpServer())
-        .get('/products?category=invalid')
-        .expect(400);
-      expect(errors).toEqual({
-        category: 'Invalid Category ID',
-      });
     });
     test('400: returns validation error message when passed invalid priceMin query', async () => {
       const {
@@ -644,6 +634,16 @@ describe('/categories', () => {
       expect(errors).toEqual({
         category: 'Invalid Category ID',
       });
+    });
+  });
+
+  describe('GET category by name', () => {
+    test('200 category by name ', async () => {
+      const {
+        body: { category },
+      } = await request(app.getHttpServer())
+        .get('/categories/category/Household')
+        .expect(200);
     });
   });
 });
