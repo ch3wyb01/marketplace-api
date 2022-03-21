@@ -1,11 +1,11 @@
-import { DBProductQuery } from '../../Utilities/DBProductQuery';
 import { Product } from '../../Persistence/products/product.schema';
 import { IProduct } from './IProduct';
+import { IProductQuery } from './IProductQuery';
 
 export interface IProductsRepository {
   insertProduct(body: IProduct): Promise<Product>;
 
-  fetchAllProducts(query: DBProductQuery): Promise<Product[]>;
+  fetchAllProducts(query: IProductQuery): Promise<Product[]>;
 
   fetchProductById(prodId: string): Promise<Product>;
 

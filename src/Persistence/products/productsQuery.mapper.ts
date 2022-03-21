@@ -1,5 +1,5 @@
-import { ProductQuery } from '../../API/products/ProductQuery';
-import { DBProductQuery } from '../DBProductQuery';
+import { IProductQuery } from '../../Domain/products/IProductQuery';
+import { DBProductQuery } from './DBProductQuery';
 
 const priceMapper = (priceMin: number, priceMax: number): object => {
   const priceQueries = { price: {} };
@@ -20,17 +20,13 @@ const titleMapper = (title: string): RegExp => {
   return titleQuery;
 };
 
-const categoryMapper = (name: string): string => {
-  return name[0].toUpperCase() + name.slice(1).toLowerCase();
-};
-
-export const ProductQueryMapper = (query: ProductQuery): DBProductQuery => {
+export const ProductQueryMapper = (query: IProductQuery): DBProductQuery => {
   const { category, priceMin, priceMax, title } = query;
 
   const formattedQuery: DBProductQuery = {};
 
   if (category) {
-    formattedQuery.categories = categoryMapper(category);
+    formattedQuery.categories = category;
   }
 
   if (priceMin || priceMax) {

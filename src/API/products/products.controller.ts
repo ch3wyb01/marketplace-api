@@ -9,15 +9,13 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { IProduct } from 'src/Domain/products/IProduct';
+import { IProduct } from '../../Domain/products/IProduct';
 import { ProductsService } from '../../Domain/products/products.service';
 import { ProductMapper } from '../../Utilities/mappers/product.mapper';
 import { NewProductDTO } from './newProduct.dto';
 import { ProductDTO } from './product.dto';
 import { UpdateProductDTO } from './updateProduct.dto';
 import { ProductQuery } from './ProductQuery';
-import { ProductQueryMapper } from '../../Utilities/mappers/productsQuery.mapper';
-import { DBProductQuery } from '../../Utilities/DBProductQuery';
 
 @Controller('products')
 export class ProductsController {
@@ -41,10 +39,8 @@ export class ProductsController {
   async getAllProducts(
     @Query() query: ProductQuery,
   ): Promise<{ products: ProductDTO[] }> {
-    const queries: DBProductQuery = query ? ProductQueryMapper(query) : {};
-
     const dbProducts: IProduct[] = await this.productsService.fetchAllProducts(
-      queries,
+      query,
     );
 
     const products: ProductDTO[] = dbProducts.map(ProductMapper);

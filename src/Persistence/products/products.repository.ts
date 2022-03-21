@@ -1,10 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DBProductQuery } from '../../Utilities/DBProductQuery';
+import { DBProductQuery } from './DBProductQuery';
 import { IProduct } from '../../Domain/products/IProduct';
 import { IProductsRepository } from '../../Domain/products/IProductsRepository';
 import { Product } from './product.schema';
+import { IProductQuery } from '../../Domain/products/IProductQuery';
+import { ProductQueryMapper } from './productsQuery.mapper';
 
 @Injectable()
 export class ProductsRepository implements IProductsRepository {
@@ -24,9 +26,11 @@ export class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  async fetchAllProducts(query: DBProductQuery): Promise<Product[]> {
+  async fetchAllProducts(query: IProductQuery): Promise<Product[]> {
+    const queries: DBProductQuery = ProductQueryMapper(query);
+
     const products = (await this.productModel
-      .find(query)
+      .find(queries)
       .populate({ path: 'categories' })
       .lean()) as Product[];
 
