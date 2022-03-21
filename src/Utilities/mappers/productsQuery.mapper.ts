@@ -15,7 +15,7 @@ const priceMapper = (priceMin: number, priceMax: number): object => {
 };
 
 export const ProductQueryMapper = (query: ProductQuery): DBProductQuery => {
-  const { title, category, priceMin, priceMax } = query;
+  const { category, priceMin, priceMax } = query;
 
   const formattedQuery: DBProductQuery = {};
 
@@ -25,10 +25,6 @@ export const ProductQueryMapper = (query: ProductQuery): DBProductQuery => {
 
   if (category) {
     formattedQuery.categories = category;
-  }
-
-  if (title) {
-    formattedQuery.title = title;
   }
 
   return formattedQuery;
