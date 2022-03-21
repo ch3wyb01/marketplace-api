@@ -1,5 +1,5 @@
 export type DBProductQuery = {
-  title?: string;
+  title?: RegExp;
 
   price?: object;
 
