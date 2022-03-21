@@ -93,6 +93,35 @@ describe('/products', () => {
         expect(product.price).toBeLessThanOrEqual(20);
       });
     });
+    test('404: returns not found message when passed valid but non-existent category ID query', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .get('/products?category=621f812430f463d5067c39f2')
+        .expect(404);
+      expect(errors).toBe('Category not found');
+    });
+    test('400: returns validation error message when passed invalid category ID query', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .get('/products?category=invalid')
+        .expect(400);
+      expect(errors).toEqual({
+        category: 'Invalid Category ID',
+      });
+    });
+    test('400: returns validation error message when passed invalid priceMin query', async () => {
+      const {
+        body: { errors },
+      } = await request(app.getHttpServer())
+        .get('/products?priceMin=pennies')
+        .expect(400);
+      expect(errors).toEqual({
+        priceMin:
+          'priceMin must be a number conforming to the specified constraints',
+      });
+    });
   });
 
   describe('POST /products', () => {
