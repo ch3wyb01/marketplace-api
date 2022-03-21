@@ -123,7 +123,7 @@ describe('/products', () => {
       const {
         body: { errors },
       } = await request(app.getHttpServer())
-        .get('/products?category=621f812430f463d5067c39f2')
+        .get('/products?category=beans')
         .expect(404);
       expect(errors).toBe('Category not found');
     });
