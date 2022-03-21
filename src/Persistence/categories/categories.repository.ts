@@ -53,4 +53,11 @@ export class CategoriesRepository implements ICategoriesRepository {
         HttpStatus.NOT_FOUND,
       );
   }
+
+  async fetchCategoryByName(name: string): Promise<Category> {
+    const category = await this.categoryModel.findOne({ category_name: name }).lean();
+
+    if (category) return category;
+    else throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+  }
 }

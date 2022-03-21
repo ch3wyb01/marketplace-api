@@ -38,4 +38,11 @@ export class CategoriesService {
   async removeCategoryById(catId: string) {
     await this.categoriesRepository.removeCategoryById(catId);
   }
+
+  async fetchCategoryByName(name: string): Promise<ICategory> {
+    const category: ICategory =
+      await this.categoriesRepository.fetchCategoryByName(name);
+
+    return category;
+  }
 }

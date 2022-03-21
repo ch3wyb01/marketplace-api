@@ -14,4 +14,6 @@ export interface ICategoriesRepository {
   ): Promise<ICategory>;
 
   removeCategoryById(catId: string): Promise<void>;
+
+  fetchCategoryByName(name: string): Promise<Category>;
 }
