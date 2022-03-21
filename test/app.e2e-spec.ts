@@ -636,14 +636,4 @@ describe('/categories', () => {
       });
     });
   });
-
-  describe('GET category by name', () => {
-    test('200 category by name ', async () => {
-      const {
-        body: { category },
-      } = await request(app.getHttpServer())
-        .get('/categories/category/Household')
-        .expect(200);
-    });
-  });
 });
