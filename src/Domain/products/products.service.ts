@@ -25,10 +25,11 @@ export class ProductsService {
     if (query.category) {
       const categoryName =
         query.category[0].toUpperCase() + query.category.slice(1).toLowerCase();
-        
+
       const dbCategory: ICategory =
         await this.categoriesRepository.fetchCategoryByName(categoryName);
-      query.category = this.CategoryIDMapper(dbCategory);
+
+      query.category = dbCategory._id;
     }
 
     const products: IProduct[] = await this.productsRepository.fetchAllProducts(
@@ -75,9 +76,5 @@ export class ProductsService {
   private CategoryNameMapper(categories: ICategory[]): string[] {
     const categoryNames = categories.map((category) => category.category_name);
     return categoryNames;
-  }
-
-  private CategoryIDMapper(category: ICategory) {
-    return category._id;
   }
 }
