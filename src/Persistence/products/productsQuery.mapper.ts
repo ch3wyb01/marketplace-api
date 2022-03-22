@@ -3,6 +3,7 @@ import { DBProductQuery } from './DBProductQuery';
 
 const priceMapper = (priceMin: number, priceMax: number): object => {
   const priceQueries = { price: {} };
+
   if (priceMin && priceMax) {
     priceQueries.price = { $gte: Number(priceMin), $lte: Number(priceMax) };
   } else if (priceMin) {
@@ -25,17 +26,12 @@ export const ProductQueryMapper = (query: IProductQuery): DBProductQuery => {
 
   const formattedQuery: DBProductQuery = {};
 
-  if (category) {
-    formattedQuery.categories = category;
-  }
+  if (category) formattedQuery.categories = category;
 
-  if (priceMin || priceMax) {
+  if (priceMin || priceMax)
     formattedQuery.price = priceMapper(priceMin, priceMax);
-  }
 
-  if (title) {
-    formattedQuery.title = titleMapper(title);
-  }
+  if (title) formattedQuery.title = titleMapper(title);
 
   return formattedQuery;
 };
