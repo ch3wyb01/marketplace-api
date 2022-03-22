@@ -1,4 +1,4 @@
-{
+export const endpoints = {
   "GET /": {
     "description": "serves a json representation of all the available endpoints of the api"
   },
