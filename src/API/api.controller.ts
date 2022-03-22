@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import endpointsDesc from './endpoints.json';
+import { endpoints } from './endpoints';
 
 @Controller()
 export class ApiController {
@@ -7,7 +7,6 @@ export class ApiController {
 
   @Get()
   getEndpoints() {
-    const endpoints = endpointsDesc;
     return { endpoints };
   }
 }
