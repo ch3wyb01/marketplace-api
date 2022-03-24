@@ -43,11 +43,12 @@ describe('/', () => {
 
 describe('/products', () => {
   describe('GET /products', () => {
-    test('200: returns array of product objects', async () => {
+    test('200: returns array of product objects sorted by title ascending by default', async () => {
       const {
         body: { products },
       } = await request(app.getHttpServer()).get('/products').expect(200);
       expect(products).toHaveLength(3);
+      expect(products).toBeSortedBy('title');
       products.forEach((product: ProductDTO) => {
         expect(product).toEqual(
           expect.objectContaining({
@@ -68,6 +69,7 @@ describe('/products', () => {
         .get('/products?category=toys')
         .expect(200);
       expect(products).toHaveLength(2);
+      expect(products).toBeSortedBy('title');
       products.forEach((product: ProductDTO) => {
         expect(product).toEqual(
           expect.objectContaining({
@@ -118,6 +120,33 @@ describe('/products', () => {
       products.forEach((product: ProductDTO) => {
         expect(product.title).toEqual(expect.stringContaining('us'));
       });
+    });
+    test('200: returns array of products sorted by price ascending when passed sort query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?sort=price')
+        .expect(200);
+      expect(products).toHaveLength(3);
+      expect(products).toBeSortedBy('price');
+    });
+    test('200: returns array of products sorted by title descending when passed order query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?order=desc')
+        .expect(200);
+      expect(products).toHaveLength(3);
+      expect(products).toBeSortedBy('title', { descending: true });
+    });
+    test('200: returns array of products sorted by price descending when passed sort and order query', async () => {
+      const {
+        body: { products },
+      } = await request(app.getHttpServer())
+        .get('/products?sort=price&order=desc')
+        .expect(200);
+      expect(products).toHaveLength(3);
+      expect(products).toBeSortedBy('price', { descending: true });
     });
     test('404: returns not found message when passed valid but non-existent category name query', async () => {
       const {
