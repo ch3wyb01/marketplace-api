@@ -3,4 +3,6 @@ export interface IProductQuery {
   priceMin?: number;
   priceMax?: number;
   category?: string;
+  sort?: 'title' | 'price';
+  order?: 'asc' | 'desc';
 }

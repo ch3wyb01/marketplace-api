@@ -19,4 +19,12 @@ export class ProductQuery {
   @IsOptional()
   @IsString()
   category?: string;
+
+  @IsOptional()
+  @IsString()
+  sort?: 'title' | 'price';
+
+  @IsOptional()
+  @IsString()
+  order?: 'asc' | 'desc';
 }
