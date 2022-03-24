@@ -7,6 +7,7 @@ import { IProductsRepository } from '../../Domain/products/IProductsRepository';
 import { Product } from './product.schema';
 import { IProductQuery } from '../../Domain/products/IProductQuery';
 import { ProductQueryMapper } from './productsQuery.mapper';
+import { SortQueryMapper } from './sortQuery.mapper';
 
 @Injectable()
 export class ProductsRepository implements IProductsRepository {
@@ -27,10 +28,12 @@ export class ProductsRepository implements IProductsRepository {
   }
 
   async fetchAllProducts(query: IProductQuery): Promise<Product[]> {
-    const queries: DBProductQuery = ProductQueryMapper(query);
+    const queries: Partial<DBProductQuery> = ProductQueryMapper(query);
+    queries.sort = SortQueryMapper(query.sort, query.order);
 
     const products = (await this.productModel
       .find(queries)
+      .sort(queries.sort)
       .populate({ path: 'categories' })
       .lean()) as Product[];
 
