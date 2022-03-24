@@ -4,4 +4,6 @@ export type DBProductQuery = {
   price?: object;
 
   categories?: string;
+
+  sort?: object;
 };
